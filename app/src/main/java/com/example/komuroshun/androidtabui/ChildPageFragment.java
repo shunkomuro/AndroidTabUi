@@ -45,7 +45,6 @@ public class ChildPageFragment extends Fragment {
      * @param generateCount generate count.
      * @return A new instance of fragment ChildPageFragment.
      */
-    // TODO: Rename and change types and number of parameters
     public static ChildPageFragment newInstance(String generateCount) {
         ChildPageFragment fragment = new ChildPageFragment();
         Bundle args = new Bundle();
@@ -98,38 +97,6 @@ public class ChildPageFragment extends Fragment {
         return view;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-//            mListener.onFragmentInteraction(uri);
-        }
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        Log.d(TAG, "onAttach");
-        if (context instanceof OnFragmentInteractionListener) {
-//            mListener = (OnFragmentInteractionListener) context;
-        } else {
-//            throw new RuntimeException(context.toString()
-//                    + " must implement OnFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        Log.d(TAG, "onStart");
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        Log.d(TAG, "onDetach");
-        mListener = null;
-    }
-
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -141,8 +108,6 @@ public class ChildPageFragment extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-//        void onFragmentInteraction(Uri uri);
         void onFragmentInteraction();
         void onFragmentBack();
     }

@@ -7,7 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.TabHost;
 
-public class HomeActivity extends AppCompatActivity implements FragmentTabHost.OnTabChangeListener,PageFragment.OnFragmentInteractionListener {
+public class HomeActivity extends AppCompatActivity implements FragmentTabHost.OnTabChangeListener,
+        PageFragment.OnFragmentInteractionListener {
 
     private static final String TAG = HomeActivity.class.getName();
 
@@ -17,7 +18,7 @@ public class HomeActivity extends AppCompatActivity implements FragmentTabHost.O
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        FragmentTabHost tabHost = (FragmentTabHost)findViewById(android.R.id.tabhost);
+        FragmentTabHost tabHost = findViewById(android.R.id.tabhost);
         tabHost.setup(this, getSupportFragmentManager(), R.id.container);
 
         TabHost.TabSpec tabSpec1, tabSpec2, tabSpec3, tabSpec4, tabSpec5;
@@ -60,11 +61,8 @@ public class HomeActivity extends AppCompatActivity implements FragmentTabHost.O
 
     @Override
     public void onTabChanged(String tabId) {
-
     }
-
     @Override
     public void onFragmentInteraction(Uri uri) {
-
     }
 }

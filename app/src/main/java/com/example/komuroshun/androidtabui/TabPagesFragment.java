@@ -12,6 +12,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+/**
+ * メモ：
+ * 子は親を知らない状態。(TabPagesFragment が子, PageFragment が親)
+ * 子は自分を生成してもらうためのリスナーの用意だけしておく。
+ * 表示内容は onCreateView() の段階で全て自分で用意する。情報は関連の Store クラスから取得する。
+ */
 
 /**
  * A simple {@link Fragment} subclass.
@@ -29,8 +35,7 @@ public class TabPagesFragment extends Fragment implements TabPageFragment.OnFrag
     private static final String PARENT_TAB_NAME = "parentTabName";
 
     private String mParentTabName;
-
-    private OnFragmentInteractionListener mListener;
+    private OnFragmentInteractionListener mParentListener;
     private View mView;
     private ViewPager mPager;
 
@@ -45,7 +50,6 @@ public class TabPagesFragment extends Fragment implements TabPageFragment.OnFrag
      * @param parentTabName A tab name of parent Activity.
      * @return A new instance of fragment TabPagesFragment.
      */
-    // TODO: Rename and change types and number of parameters
     public static TabPagesFragment newInstance(String parentTabName) {
         TabPagesFragment fragment = new TabPagesFragment();
         Bundle args = new Bundle();
@@ -76,28 +80,10 @@ public class TabPagesFragment extends Fragment implements TabPageFragment.OnFrag
         return mView;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-//            mListener.onFragmentInteraction(uri);
-        }
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-//            mListener = (OnFragmentInteractionListener) context;
-        } else {
-//            throw new RuntimeException(context.toString()
-//                    + " must implement OnFragmentInteractionListener");
-        }
-    }
-
     @Override
     public void onDetach() {
         super.onDetach();
-//        mListener = null;
+//        mParentListener = null;
     }
 
     @Override
@@ -105,8 +91,8 @@ public class TabPagesFragment extends Fragment implements TabPageFragment.OnFrag
         // 親フラグメントに生成依頼
         Log.d(TAG, "onFragmentInteraction");
         Fragment parentFragment = getParentFragment();
-        mListener = (TabPagesFragment.OnFragmentInteractionListener) parentFragment;
-        mListener.onFragmentInteraction();
+        mParentListener = (TabPagesFragment.OnFragmentInteractionListener) parentFragment;
+        mParentListener.onFragmentInteraction();
     }
 
     /**
@@ -120,7 +106,6 @@ public class TabPagesFragment extends Fragment implements TabPageFragment.OnFrag
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onFragmentInteraction();
     }
 }
