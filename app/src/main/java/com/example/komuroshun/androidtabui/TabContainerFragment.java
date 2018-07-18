@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.komuroshun.androidtabui.history.HistoryTabFragment;
+import com.example.komuroshun.androidtabui.sixpack.SixPackFragment;
 
 /**
  * BaseFragment.onFragmentInteractionListner を拡張した Fragment の切り替え操作をする
@@ -19,6 +20,7 @@ public class TabContainerFragment extends Fragment
         implements BaseFragment.OnFragmentInteractionListener{
 
     final String HISTORY_TAB = "履歴";
+    final String SIXPACK_TAB = "6Pack";
 
     private OnFragmentInteractionListener mListener;
 
@@ -42,6 +44,11 @@ public class TabContainerFragment extends Fragment
                 case HISTORY_TAB :
                     Fragment historyTabFragment = HistoryTabFragment.newInstance("Param1");
                     fragmentTransaction.replace(R.id.HistoryTabContainer, historyTabFragment, "0");
+                    break;
+                case SIXPACK_TAB :
+                    Fragment sixPackFragment = SixPackFragment.newInstance("Param1", "Param2");
+                    fragmentTransaction.replace(R.id.HistoryTabContainer, sixPackFragment, "0");
+                    break;
             }
             fragmentTransaction.addToBackStack(null); // 戻るボタンでreplace前に戻る
             fragmentTransaction.commit();

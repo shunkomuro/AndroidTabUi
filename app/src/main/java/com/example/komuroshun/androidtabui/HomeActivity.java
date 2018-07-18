@@ -52,12 +52,12 @@ public class HomeActivity extends AppCompatActivity implements FragmentTabHost.O
         Bundle bundle4 = new Bundle();
         bundle4.putString("name", "履歴");
         tabHost.addTab(historyTabSpec, TabContainerFragment.class, bundle4);
-        // タブ生成5
-        tabSpec5 = tabHost.newTabSpec("tab5");
-        tabSpec5.setIndicator("tab5");
+
+        tabSpec5 = tabHost.newTabSpec("6Pack");
+        tabSpec5.setIndicator("6Pack");
         Bundle bundle5 = new Bundle();
-        bundle5.putString("name", "tab5");
-        tabHost.addTab(tabSpec5, PageFragment.class, bundle5);
+        bundle5.putString("name", "6Pack");
+        tabHost.addTab(tabSpec5, TabContainerFragment.class, bundle5);
 
         // リスナー登録
         tabHost.setOnTabChangedListener(this);

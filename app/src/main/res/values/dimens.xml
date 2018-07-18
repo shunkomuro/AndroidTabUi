@@ -8,4 +8,10 @@
     <dimen name="indicator_width">60dp</dimen>
     <dimen name="indicator_height">8dp</dimen>
 
+    <!-- Six-pack -->
+    <dimen name="six_pack_horizontal_margin">16dp</dimen>
+    <dimen name="six_pack_vertical_margin">16dp</dimen>
+    <dimen name="icon_margin">16dp</dimen>
+    <dimen name="icon_margin2">8dp</dimen>
+
 </resources>
