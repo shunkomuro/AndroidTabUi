@@ -3,7 +3,9 @@ package com.example.komuroshun.androidtabui;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTabHost;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.widget.TabHost;
 
 /**
@@ -22,11 +24,14 @@ public class HomeActivity extends AppCompatActivity implements FragmentTabHost.O
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.tool_bar);
+        setSupportActionBar(toolbar);
+
         FragmentTabHost tabHost = findViewById(android.R.id.tabhost);
         tabHost.setup(this, getSupportFragmentManager(), R.id.container);
 
+        // 画面下部タブメニュー
         TabHost.TabSpec tabSpec1, tabSpec2, tabSpec3, historyTabSpec, tabSpec5;
-
         // タブ生成1
         tabSpec1 = tabHost.newTabSpec("tab1");
         tabSpec1.setIndicator("tab1");
