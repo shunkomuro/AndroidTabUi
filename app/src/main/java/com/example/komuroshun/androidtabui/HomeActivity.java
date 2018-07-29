@@ -1,11 +1,17 @@
 package com.example.komuroshun.androidtabui;
 
+import android.app.FragmentManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTabHost;
-import android.support.v7.app.ActionBar;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.TabHost;
 
 /**
@@ -24,8 +30,30 @@ public class HomeActivity extends AppCompatActivity implements FragmentTabHost.O
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        // Toolbar Settings
         Toolbar toolbar = (Toolbar) findViewById(R.id.tool_bar);
+        toolbar.setTitle("");
         setSupportActionBar(toolbar);
+        Spinner spinner = (Spinner) toolbar.findViewById(R.id.tool_bar_spinner);
+//        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                String selectedName = String.valueOf(parent.getSelectedItem());
+//                Bundle selectedNameBundle = new Bundle();
+//                selectedNameBundle.putString("name", selectedName);
+//                FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+//                Fragment tabContainerFragment = new TabContainerFragment();
+//                tabContainerFragment.setArguments(selectedNameBundle);
+//                fragmentTransaction.replace(R.id.container, tabContainerFragment);
+//                fragmentTransaction.addToBackStack(null); // 戻るボタンでreplace前に戻る
+//                fragmentTransaction.commit();
+//            }
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+//            }
+//        });
+        spinner.setAdapter(ArrayAdapter.createFromResource(this, R.array.fragment_names,
+                android.R.layout.simple_spinner_dropdown_item));
 
         FragmentTabHost tabHost = findViewById(android.R.id.tabhost);
         tabHost.setup(this, getSupportFragmentManager(), R.id.container);
