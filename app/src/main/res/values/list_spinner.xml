@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array
+        name="fragment_names">
+        <item>AndroidTabUi</item>
+        <item>履歴</item>
+        <item>6Pack</item>
+    </string-array>
+</resources>
