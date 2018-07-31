@@ -1,18 +1,15 @@
 package com.example.komuroshun.androidtabui;
 
-import android.app.FragmentManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTabHost;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TabHost;
+import android.widget.TabWidget;
 
 /**
  * Activities manage fragments.
@@ -59,38 +56,43 @@ public class HomeActivity extends AppCompatActivity implements FragmentTabHost.O
         tabHost.setup(this, getSupportFragmentManager(), R.id.container);
 
         // 画面下部タブメニュー
-        TabHost.TabSpec tabSpec1, tabSpec2, tabSpec3, historyTabSpec, tabSpec5;
+        TabHost.TabSpec tabHome, tabNotice, tabPoint, tabHistory, tabOthers;
         // タブ生成1
-        tabSpec1 = tabHost.newTabSpec("tab1");
-        tabSpec1.setIndicator("tab1");
+        View tabViewHome = new CustomBottomTabContentView(this, "ホーム", R.drawable.selector_bottom_tab_home);
+        tabHome = tabHost.newTabSpec("ホーム");
+        tabHome.setIndicator(tabViewHome);
         // クラス調査使い方
         Bundle bundle1 = new Bundle();
-        bundle1.putString("name", "tab1");
-        tabHost.addTab(tabSpec1, PageFragment.class, bundle1);
+        bundle1.putString("name", "ホーム");
+        tabHost.addTab(tabHome, PageFragment.class, bundle1);
         // タブ生成2
-        tabSpec2 = tabHost.newTabSpec("tab2");
-        tabSpec2.setIndicator("tab2");
+        View tabViewNotice = new CustomBottomTabContentView(this, "お知らせ", R.drawable.selector_bottom_tab_notice);
+        tabNotice = tabHost.newTabSpec("お知らせ");
+        tabNotice.setIndicator(tabViewNotice);
         Bundle bundle2 = new Bundle();
-        bundle2.putString("name", "tab2");
-        tabHost.addTab(tabSpec2, PageFragment.class, bundle2);
+        bundle2.putString("name", "お知らせ");
+        tabHost.addTab(tabNotice, PageFragment.class, bundle2);
         // タブ生成3
-        tabSpec3 = tabHost.newTabSpec("tab3");
-        tabSpec3.setIndicator("tab3");
+        View tabViewPoint = new CustomBottomTabContentView(this, "ポイント", R.drawable.selector_bottom_tab_point);
+        tabPoint = tabHost.newTabSpec("ポイント");
+        tabPoint.setIndicator(tabViewPoint);
         Bundle bundle3 = new Bundle();
-        bundle3.putString("name", "tab3");
-        tabHost.addTab(tabSpec3, PageFragment.class, bundle3);
+        bundle3.putString("name", "ポイント");
+        tabHost.addTab(tabPoint, PageFragment.class, bundle3);
 
-        historyTabSpec = tabHost.newTabSpec("履歴");
-        historyTabSpec.setIndicator("履歴");
+        View tabViewHistory = new CustomBottomTabContentView(this, "履歴", R.drawable.selector_bottom_tab_history);
+        tabHistory = tabHost.newTabSpec("履歴");
+        tabHistory.setIndicator(tabViewHistory);
         Bundle bundle4 = new Bundle();
         bundle4.putString("name", "履歴");
-        tabHost.addTab(historyTabSpec, TabContainerFragment.class, bundle4);
+        tabHost.addTab(tabHistory, TabContainerFragment.class, bundle4);
 
-        tabSpec5 = tabHost.newTabSpec("6Pack");
-        tabSpec5.setIndicator("6Pack");
+        View tabViewOthers = new CustomBottomTabContentView(this, "6Pack", R.drawable.selector_bottom_tab_others);
+        tabOthers = tabHost.newTabSpec("6Pack");
+        tabOthers.setIndicator(tabViewOthers);
         Bundle bundle5 = new Bundle();
         bundle5.putString("name", "6Pack");
-        tabHost.addTab(tabSpec5, TabContainerFragment.class, bundle5);
+        tabHost.addTab(tabOthers, TabContainerFragment.class, bundle5);
 
         // リスナー登録
         tabHost.setOnTabChangedListener(this);
