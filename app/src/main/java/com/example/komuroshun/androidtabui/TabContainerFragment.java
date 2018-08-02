@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.komuroshun.androidtabui.card.CardListFragment;
 import com.example.komuroshun.androidtabui.history.HistoryTabFragment;
 import com.example.komuroshun.androidtabui.sixpack.SixPackFragment;
 
@@ -17,8 +18,10 @@ import com.example.komuroshun.androidtabui.sixpack.SixPackFragment;
  * BaseFragment.onFragmentInteractionListner を拡張した Fragment の切り替え操作をする
  */
 public class TabContainerFragment extends Fragment
-        implements BaseFragment.OnFragmentInteractionListener{
+        implements BaseFragment.OnFragmentInteractionListener
+        ,CardListFragment.OnFragmentInteractionListener {
 
+    final String HOME_TAB = "ホーム";
     final String HISTORY_TAB = "履歴";
     final String SIXPACK_TAB = "6Pack";
 
@@ -41,13 +44,17 @@ public class TabContainerFragment extends Fragment
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             String tabName = getArguments().getString("name");
             switch (tabName) {
+                case HOME_TAB :
+                    Fragment cardListFragment = CardListFragment.newInstance();
+                    fragmentTransaction.replace(R.id.TabContainer, cardListFragment, "0");
+                    break;
                 case HISTORY_TAB :
                     Fragment historyTabFragment = HistoryTabFragment.newInstance("Param1");
-                    fragmentTransaction.replace(R.id.HistoryTabContainer, historyTabFragment, "0");
+                    fragmentTransaction.replace(R.id.TabContainer, historyTabFragment, "0");
                     break;
                 case SIXPACK_TAB :
                     Fragment sixPackFragment = SixPackFragment.newInstance("Param1", "Param2");
-                    fragmentTransaction.replace(R.id.HistoryTabContainer, sixPackFragment, "0");
+                    fragmentTransaction.replace(R.id.TabContainer, sixPackFragment, "0");
                     break;
             }
             fragmentTransaction.addToBackStack(null); // 戻るボタンでreplace前に戻る
