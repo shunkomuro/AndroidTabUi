@@ -1,24 +1,21 @@
+
 package com.example.komuroshun.androidtabui.card;
 
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.graphics.Point;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
-import android.view.animation.AnimationSet;
 import android.view.animation.TranslateAnimation;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.example.komuroshun.androidtabui.BaseFragment;
 import com.example.komuroshun.androidtabui.R;
 
 import java.util.List;
@@ -51,8 +48,8 @@ public class CardListFragment extends ListFragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-//     * @param param1 Parameter 1.
-//     * @param param2 Parameter 2.
+     //     * @param param1 Parameter 1.
+     //     * @param param2 Parameter 2.
      * @return A new instance of fragment CardListFragment.
      */
     // TODO: Rename and change types and number of parameters
@@ -102,8 +99,7 @@ public class CardListFragment extends ListFragment {
 
         // 8dp
         int padding = (int) (getResources().getDisplayMetrics().density * 8);
-        //TODO final
-        final ListView listView = getListView();
+        ListView listView = getListView();
         listView.setPadding(padding, 0, padding, 0);
         listView.setScrollBarStyle(ListView.SCROLLBARS_OUTSIDE_OVERLAY);
         listView.setDivider(null);
@@ -116,42 +112,9 @@ public class CardListFragment extends ListFragment {
         listView.addFooterView(footer, null, false);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
             @Override
-            public void onItemClick(AdapterView<?> arg0, final View card, int arg2,
-                                    long arg3) {
-                Log.d("############","Items ");
-
-                // get Card coordinate after moving
-                // (ListView height / 2) - (Card height / 2)
-                Log.d("TYOUSA","LISTVIEW_HEIGHT : " + String.valueOf(listView.getHeight())); // 高さ
-                int[] listViewLocation = new int[2];
-                listView.getLocationOnScreen(listViewLocation);
-                Log.d("TYOUSA","LISTVIEW_Y : " + String.valueOf(listViewLocation[1])); // Y 座標
-
-                Log.d("TYOUSA","CARD_HEIGHT : " + String.valueOf(card.getHeight())); // 高さ
-
-                int[] cardLocation = new int[2];
-                card.getLocationInWindow(cardLocation);
-                Log.d("TYOUSA","FROM_CARD_Y : " + String.valueOf(cardLocation[1])); // Y 座標
-
-                int toCardY = (listView.getHeight()/2)-(card.getHeight()/2);
-                Log.d("TYOUSA","TO_CARD_Y : " + String.valueOf(toCardY)); // Y 座標
-                final int movingAmount = toCardY - cardLocation[1];
-                Animation cardMovingAnimation = new TranslateAnimation(Animation.ABSOLUTE, (float)0, Animation.ABSOLUTE, (float)0, Animation.ABSOLUTE, 0, Animation.ABSOLUTE, (float)movingAmount);
-                cardMovingAnimation.setDuration(400);
-                cardMovingAnimation.setAnimationListener(new Animation.AnimationListener() {
-                    @Override
-                    public void onAnimationStart(Animation animation) { }
-                    @Override
-                    public void onAnimationEnd(Animation animation) {
-                        card.setTranslationY(movingAmount);
-                        flipCard(card);
-                    }
-                    @Override
-                    public void onAnimationRepeat(Animation animation) { }
-                });
-                card.startAnimation(cardMovingAnimation);
+            public void onItemClick(AdapterView<?> arg0, View card, int arg2, long arg3) {
+                startCardAnimation(card);
             }
         });
     }
@@ -180,20 +143,46 @@ public class CardListFragment extends ListFragment {
         mListener = null;
     }
 
+    private void startCardAnimation (final View card) {
+        ListView listView = getListView();
+        int[] listViewLocation = new int[2];
+        listView.getLocationOnScreen(listViewLocation);
+        // get Card coordinate after moving
+        int toCardY = listViewLocation[1] + (listView.getHeight()/2)-(card.getHeight()/2);
+        // get Card coordinate before moving
+        int[] cardLocation = new int[2];
+        card.getLocationOnScreen(cardLocation);
+        // toCardY - fromCardY
+        final int movingAmount = toCardY - cardLocation[1];
+        // Setting Animation
+        Animation cardMovingAnimation = new TranslateAnimation(Animation.ABSOLUTE, (float)0,
+                Animation.ABSOLUTE, (float)0,
+                Animation.ABSOLUTE, 0,
+                Animation.ABSOLUTE, (float)movingAmount);
+        cardMovingAnimation.setDuration(400);
+        cardMovingAnimation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) { }
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                card.setTranslationY(movingAmount);
+                flipCard(card);
+            }
+            @Override
+            public void onAnimationRepeat(Animation animation) { }
+        });
+        card.startAnimation(cardMovingAnimation);
+    }
+
     private void flipCard(View rotationView)
     {
-        // わかりやすく変数に入れているだけ
-        View rotationTargetLayout = rotationView;
-        View cardFace = rotationView;
-        View cardBack = rotationView;
+        FlipAnimation flipAnimation = new FlipAnimation(rotationView, rotationView);
 
-        FlipAnimation flipAnimation = new FlipAnimation(cardFace, cardBack);
-
-        if (cardFace.getVisibility() == View.GONE)
+        if (rotationView.getVisibility() == View.GONE)
         {
             flipAnimation.reverse();
         }
-        rotationTargetLayout.startAnimation(flipAnimation);
+        rotationView.startAnimation(flipAnimation);
     }
 
     /**
