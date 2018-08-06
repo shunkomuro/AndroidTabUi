@@ -5,13 +5,19 @@
     android:layout_height="match_parent"
     >
     <!--tools:context=".CardUiListFragment"-->
-    <!-- TODO: Update blank fragment layout -->
 
-    <!--<Button-->
-        <!--android:id="@+id/btn_campaign"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="キャンペーン始めました！" />-->
+    <Button
+        android:id="@+id/btn_campaign"
+        android:layout_width="match_parent"
+        android:layout_height="36dp"
+        android:layout_margin="8dp"
+        android:paddingLeft="12dp"
+        android:background="@drawable/bg_btn_campaign"
+        android:textAlignment="textStart"
+        android:text="キャンペーンはじめました！"
+        android:textSize="16dp"
+        android:textColor="#ff8c00"
+        android:visibility="visible" />
 
     <ListView
         android:id="@android:id/list"

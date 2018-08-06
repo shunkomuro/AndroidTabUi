@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
@@ -106,17 +107,30 @@ public class CardListFragment extends ListFragment {
 
         // 余白用のヘッダー、フッターを追加
         LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
-        View header = layoutInflater.inflate(R.layout.parts_card_list_header_footer, listView, false);
-        View footer = layoutInflater.inflate(R.layout.parts_card_list_header_footer, listView, false);
+        View header = layoutInflater.inflate(R.layout.parts_card_list_header, listView, false);
+        //TODO:campaign button is visible or gone
+        View footer = layoutInflater.inflate(R.layout.parts_card_list_footer, listView, false);
         listView.addHeaderView(header, null, false);
         listView.addFooterView(footer, null, false);
-
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> arg0, View card, int arg2, long arg3) {
                 startCardAnimation(card);
             }
         });
+
+//        AsyncTask<Integer, Integer, Integer> task = new AsyncTask<Integer, Integer, Integer>() {
+//            @Override
+//            protected void doInBackground(Param... params) {
+//                return result; // ここでreturnしたオブジェクトがonPostExecute()に渡される
+//            }
+//
+//            @Override
+//            protected void onPostExecute(String result) {
+//                System.out.println(result.result1);
+//                System.out.println(result.result2);
+//            }
+//        };
     }
 
     // TODO: Rename method, update argument and hook method into UI event
