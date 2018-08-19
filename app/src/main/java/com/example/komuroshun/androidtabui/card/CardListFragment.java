@@ -12,9 +12,12 @@ import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ListView;
 
 import com.example.komuroshun.androidtabui.R;
@@ -100,7 +103,7 @@ public class CardListFragment extends ListFragment {
 
         // 8dp
         int padding = (int) (getResources().getDisplayMetrics().density * 8);
-        ListView listView = getListView();
+        final ListView listView = getListView();
         listView.setPadding(padding, 0, padding, 0);
         listView.setScrollBarStyle(ListView.SCROLLBARS_OUTSIDE_OVERLAY);
         listView.setDivider(null);
@@ -119,18 +122,55 @@ public class CardListFragment extends ListFragment {
             }
         });
 
-//        AsyncTask<Integer, Integer, Integer> task = new AsyncTask<Integer, Integer, Integer>() {
-//            @Override
-//            protected void doInBackground(Param... params) {
-//                return result; // ここでreturnしたオブジェクトがonPostExecute()に渡される
-//            }
-//
-//            @Override
-//            protected void onPostExecute(String result) {
-//                System.out.println(result.result1);
-//                System.out.println(result.result2);
-//            }
-//        };
+        AsyncTask<Integer, Integer, Integer> task = new AsyncTask<Integer, Integer, Integer>() {
+            @Override
+            protected Integer doInBackground(Integer... params) {
+                try{
+                    Thread.sleep(2000);
+                    return 1;
+                }catch (InterruptedException e){
+                    return 0;
+                }
+            }
+
+            @Override
+            protected void onPostExecute(Integer result) {
+                final Button campaignButton = getActivity().findViewById(R.id.btn_campaign);
+                final AlphaAnimation feedinButton = new AlphaAnimation(0, 1);
+                feedinButton.setDuration(100);
+                feedinButton.setAnimationListener(new Animation.AnimationListener() {
+                    @Override
+                    public void onAnimationStart(Animation animation) { }
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+                        campaignButton.setVisibility(View.VISIBLE);
+//                        listView.setVisibility(View.GONE);
+                    }
+                    @Override
+                    public void onAnimationRepeat(Animation animation) { }
+                });
+                campaignButton.startAnimation(feedinButton);
+//                Animation listMovingAnimation = new TranslateAnimation(Animation.ABSOLUTE, (float)0,
+//                        Animation.ABSOLUTE, (float)0,
+//                        Animation.ABSOLUTE, 0,
+//                        Animation.ABSOLUTE, (float)34);
+//                listMovingAnimation.setDuration(50);
+//                listMovingAnimation.setAnimationListener(new Animation.AnimationListener() {
+//                    @Override
+//                    public void onAnimationStart(Animation animation) { }
+//                    @Override
+//                    public void onAnimationEnd(Animation animation) {
+//                        campaignButton.startAnimation(feedinButton);
+//                    }
+//                    @Override
+//                    public void onAnimationRepeat(Animation animation) { }
+//                });
+
+                // Card がすでにあったら移動
+//                listView.startAnimation(listMovingAnimation);
+            }
+        };
+        task.execute();
     }
 
     // TODO: Rename method, update argument and hook method into UI event

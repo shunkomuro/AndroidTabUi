@@ -17,7 +17,7 @@
         android:text="キャンペーンはじめました！"
         android:textSize="16dp"
         android:textColor="#ff8c00"
-        android:visibility="visible" />
+        android:visibility="invisible" />
 
     <ListView
         android:id="@android:id/list"
