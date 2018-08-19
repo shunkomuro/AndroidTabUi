@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+    <!--tools:context=".CardUiListFragment"-->
+
+    <Button
+        android:id="@+id/btn_campaign"
+        android:layout_width="match_parent"
+        android:layout_height="36dp"
+        android:layout_margin="8dp"
+        android:paddingLeft="12dp"
+        android:background="@drawable/bg_btn_campaign"
+        android:textAlignment="textStart"
+        android:text="キャンペーンはじめました！"
+        android:textSize="16dp"
+        android:textColor="#ff8c00"
+        android:visibility="invisible" />
+
+    <ListView
+        android:id="@android:id/list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</FrameLayout>

@@ -64,7 +64,7 @@ public class HomeActivity extends AppCompatActivity implements FragmentTabHost.O
         // クラス調査使い方
         Bundle bundle1 = new Bundle();
         bundle1.putString("name", "ホーム");
-        tabHost.addTab(tabHome, PageFragment.class, bundle1);
+        tabHost.addTab(tabHome, TabContainerFragment.class, bundle1);
         // タブ生成2
         View tabViewNotice = new CustomBottomTabContentView(this, "お知らせ", R.drawable.selector_bottom_tab_notice);
         tabNotice = tabHost.newTabSpec("お知らせ");
