@@ -2,14 +2,13 @@ package com.example.komuroshun.androidtabui
 
 import android.net.Uri
 import android.os.Bundle
-import android.support.v4.app.FragmentTabHost
+import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Spinner
-import android.widget.TabHost
-import android.widget.TabWidget
+import kotlinx.android.synthetic.main.activity_home.*
 
 /**
  * Activities manage fragments.
@@ -17,10 +16,23 @@ import android.widget.TabWidget
  * @version 1.0
  */
 class HomeActivity : AppCompatActivity(), /*FragmentTabHost.OnTabChangeListener,*/ PageFragment.OnFragmentInteractionListener, TabContainerFragment.OnFragmentInteractionListener {
+    private var homeIsAlreadyDisplayed = false
+    private var noticeIsAlreadyDisplayed = false
+    private var pointIsAlreadyDisplayed = false
+    private var historyIsAlreadyDisplayed = false
+    private var othersIsAlreadyDisplayed = false
+    private var currentTabContainer: View? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
+        currentTabContainer = homeTabContainer
+        var firstViewFragment = TabContainerFragment()
+        var bundle = Bundle()
+        bundle.putString("name", "ホーム")
+        firstViewFragment!!.setArguments(bundle)
+        switchToSelectedTab(selectedTabFragment = firstViewFragment, selectedTabId = R.id.homeTabContainer, selectedTab = homeTabContainer)
+        homeIsAlreadyDisplayed = true
 
         // Toolbar Settings
         val toolbar = findViewById<View>(R.id.tool_bar) as Toolbar
@@ -30,58 +42,82 @@ class HomeActivity : AppCompatActivity(), /*FragmentTabHost.OnTabChangeListener,
         spinner.adapter = ArrayAdapter.createFromResource(this, R.array.fragment_names,
                 android.R.layout.simple_spinner_dropdown_item)
 
-        val tabHost = findViewById<FragmentTabHost>(android.R.id.tabhost)
-        tabHost.setup(this, supportFragmentManager, R.id.container)
-
-        // 画面下部タブメニュー
-        val tabHome: TabHost.TabSpec
-        val tabNotice: TabHost.TabSpec
-        val tabPoint: TabHost.TabSpec
-        val tabHistory: TabHost.TabSpec
-        val tabOthers: TabHost.TabSpec
-        // タブ生成1
-        val tabViewHome = CustomBottomTabContentView(this, "ホーム", R.drawable.selector_bottom_tab_home)
-        tabHome = tabHost.newTabSpec("ホーム")
-        tabHome.setIndicator(tabViewHome)
-        // クラス調査使い方
-        val bundle1 = Bundle()
-        bundle1.putString("name", "ホーム")
-        tabHost.addTab(tabHome, TabContainerFragment::class.java, bundle1)
-        // タブ生成2
-        val tabViewNotice = CustomBottomTabContentView(this, "お知らせ", R.drawable.selector_bottom_tab_notice)
-        tabNotice = tabHost.newTabSpec("お知らせ")
-        tabNotice.setIndicator(tabViewNotice)
-        val bundle2 = Bundle()
-        bundle2.putString("name", "お知らせ")
-        tabHost.addTab(tabNotice, PageFragment::class.java, bundle2)
-        // タブ生成3
-        val tabViewPoint = CustomBottomTabContentView(this, "ポイント", R.drawable.selector_bottom_tab_point)
-        tabPoint = tabHost.newTabSpec("ポイント")
-        tabPoint.setIndicator(tabViewPoint)
-        val bundle3 = Bundle()
-        bundle3.putString("name", "ポイント")
-        tabHost.addTab(tabPoint, PageFragment::class.java, bundle3)
-
-        val tabViewHistory = CustomBottomTabContentView(this, "履歴", R.drawable.selector_bottom_tab_history)
-        tabHistory = tabHost.newTabSpec("履歴")
-        tabHistory.setIndicator(tabViewHistory)
-        val bundle4 = Bundle()
-        bundle4.putString("name", "履歴")
-        tabHost.addTab(tabHistory, TabContainerFragment::class.java, bundle4)
-
-        val tabViewOthers = CustomBottomTabContentView(this, "6Pack", R.drawable.selector_bottom_tab_others)
-        tabOthers = tabHost.newTabSpec("6Pack")
-        tabOthers.setIndicator(tabViewOthers)
-        val bundle5 = Bundle()
-        bundle5.putString("name", "6Pack")
-        tabHost.addTab(tabOthers, TabContainerFragment::class.java, bundle5)
-
-        // リスナー登録
-//        tabHost.setOnTabChangedListener(this)
+        BottomNavigationViewHelper.disableShiftMode(bottomNavigation);
+        bottomNavigation.setOnNavigationItemSelectedListener { item ->
+            val bundle = Bundle()
+            var selectedTabFragment: Fragment? = null
+            var selectedTab: View? = null
+            var selectedTabId: Int = 0
+            when (item.itemId) {
+                R.id.nav_home -> {
+                    if (!homeIsAlreadyDisplayed) {
+                        selectedTabFragment = TabContainerFragment()
+                        bundle.putString("name", "ホーム")
+                        selectedTabFragment!!.setArguments(bundle)
+                        selectedTabId = R.id.homeTabContainer
+                        homeIsAlreadyDisplayed = true
+                    }
+                    selectedTab = homeTabContainer
+                }
+                R.id.nav_notice -> {
+                    if (!noticeIsAlreadyDisplayed) {
+                        selectedTabFragment = PageFragment()
+                        bundle.putString("name", "お知らせ")
+                        selectedTabFragment!!.setArguments(bundle)
+                        selectedTabId = R.id.noticeTabContainer
+                        noticeIsAlreadyDisplayed = true
+                    }
+                    selectedTab = noticeTabContainer
+                }
+                R.id.nav_point -> {
+                    if (!pointIsAlreadyDisplayed) {
+                        selectedTabFragment = PageFragment()
+                        bundle.putString("name", "ポイント")
+                        selectedTabFragment!!.setArguments(bundle)
+                        selectedTabId = R.id.pointTabContainer
+                        pointIsAlreadyDisplayed = true
+                    }
+                    selectedTab = pointTabContainer
+                }
+                R.id.nav_history -> {
+                    if (!historyIsAlreadyDisplayed) {
+                        selectedTabFragment = TabContainerFragment()
+                        bundle.putString("name", "履歴")
+                        selectedTabFragment!!.setArguments(bundle)
+                        selectedTabId = R.id.historyTabContainer
+                        historyIsAlreadyDisplayed = true
+                    }
+                    selectedTab = historyTabContainer
+                }
+                R.id.nav_others -> {
+                    if (!othersIsAlreadyDisplayed) {
+                        selectedTabFragment = TabContainerFragment()
+                        bundle.putString("name", "6Pack")
+                        selectedTabFragment!!.setArguments(bundle)
+                        selectedTabId = R.id.othersTabContainer
+                        othersIsAlreadyDisplayed = true
+                    }
+                    selectedTab = othersTabContainer
+                }
+            }
+            switchToSelectedTab(selectedTabFragment = selectedTabFragment, selectedTabId = selectedTabId, selectedTab = selectedTab)
+            return@setOnNavigationItemSelectedListener true
+        }
     }
 
-//    override fun onTabChanged(tabId: String) {}
+    private fun switchToSelectedTab(selectedTabFragment: Fragment? = null, selectedTabId: Int, selectedTab: View? = null) {
+        if (selectedTabFragment != null) {
+            supportFragmentManager.beginTransaction()
+                    .replace(selectedTabId, selectedTabFragment)
+                    .commit()
+        }
 
+        if (currentTabContainer != selectedTab) {
+            selectedTab!!.setVisibility(View.VISIBLE)
+            currentTabContainer!!.setVisibility(View.GONE)
+            currentTabContainer = selectedTab
+        }
+    }
     /**
      * Switch Fragments only.
      * @param uri Uri
