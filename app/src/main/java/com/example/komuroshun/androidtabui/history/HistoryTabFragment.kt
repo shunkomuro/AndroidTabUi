@@ -26,8 +26,6 @@ import com.example.komuroshun.androidtabui.util.CustomLog
  * @author Shun Komuro
  * @version 1.0
  */
-//    private OnFragmentInteractionListener mListener;
-
 class HistoryTabFragment : BaseFragment() {
     private var mIndicatorOffset: Int = 0
 
@@ -74,14 +72,6 @@ class HistoryTabFragment : BaseFragment() {
         }
 
         return view
-    }
-
-    override fun onAttach(context: Context?) {
-        super.onAttach(context)
-    }
-
-    override fun onDetach() {
-        super.onDetach()
     }
 
     private inner class PageChangeListener : ViewPager.OnPageChangeListener {
