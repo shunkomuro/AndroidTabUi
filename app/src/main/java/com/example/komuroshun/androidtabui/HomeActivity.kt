@@ -29,7 +29,7 @@ class HomeActivity : AppCompatActivity(), /*FragmentTabHost.OnTabChangeListener,
         currentTabContainer = homeTabContainer
         var firstViewFragment = TabContainerFragment()
         var bundle = Bundle()
-        bundle.putString("name", "ホーム")
+        bundle.putString("tabName", "ホーム")
         firstViewFragment!!.setArguments(bundle)
         switchToSelectedTab(selectedTabFragment = firstViewFragment, selectedTabId = R.id.homeTabContainer, selectedTab = homeTabContainer)
         homeIsAlreadyDisplayed = true
@@ -72,7 +72,7 @@ class HomeActivity : AppCompatActivity(), /*FragmentTabHost.OnTabChangeListener,
                 R.id.nav_point -> {
                     if (!pointIsAlreadyDisplayed) {
                         selectedTabFragment = PageFragment()
-                        bundle.putString("tabName", "ポイント")
+                        bundle.putString("name", "ポイント")
                         selectedTabFragment!!.setArguments(bundle)
                         selectedTabId = R.id.pointTabContainer
                         pointIsAlreadyDisplayed = true
