@@ -29,7 +29,7 @@ class HomeActivity : AppCompatActivity(), /*FragmentTabHost.OnTabChangeListener,
         currentTabContainer = homeTabContainer
         var firstViewFragment = TabContainerFragment()
         var bundle = Bundle()
-        bundle.putString("name", "ホーム")
+        bundle.putString("tabName", "ホーム")
         firstViewFragment!!.setArguments(bundle)
         switchToSelectedTab(selectedTabFragment = firstViewFragment, selectedTabId = R.id.homeTabContainer, selectedTab = homeTabContainer)
         homeIsAlreadyDisplayed = true
@@ -52,7 +52,7 @@ class HomeActivity : AppCompatActivity(), /*FragmentTabHost.OnTabChangeListener,
                 R.id.nav_home -> {
                     if (!homeIsAlreadyDisplayed) {
                         selectedTabFragment = TabContainerFragment()
-                        bundle.putString("name", "ホーム")
+                        bundle.putString("tabName", "ホーム")
                         selectedTabFragment!!.setArguments(bundle)
                         selectedTabId = R.id.homeTabContainer
                         homeIsAlreadyDisplayed = true
@@ -61,8 +61,8 @@ class HomeActivity : AppCompatActivity(), /*FragmentTabHost.OnTabChangeListener,
                 }
                 R.id.nav_notice -> {
                     if (!noticeIsAlreadyDisplayed) {
-                        selectedTabFragment = PageFragment()
-                        bundle.putString("name", "お知らせ")
+                        selectedTabFragment = TabContainerFragment()
+                        bundle.putString("tabName", "天気")
                         selectedTabFragment!!.setArguments(bundle)
                         selectedTabId = R.id.noticeTabContainer
                         noticeIsAlreadyDisplayed = true
@@ -82,7 +82,7 @@ class HomeActivity : AppCompatActivity(), /*FragmentTabHost.OnTabChangeListener,
                 R.id.nav_history -> {
                     if (!historyIsAlreadyDisplayed) {
                         selectedTabFragment = TabContainerFragment()
-                        bundle.putString("name", "履歴")
+                        bundle.putString("tabName", "履歴")
                         selectedTabFragment!!.setArguments(bundle)
                         selectedTabId = R.id.historyTabContainer
                         historyIsAlreadyDisplayed = true
@@ -92,7 +92,7 @@ class HomeActivity : AppCompatActivity(), /*FragmentTabHost.OnTabChangeListener,
                 R.id.nav_others -> {
                     if (!othersIsAlreadyDisplayed) {
                         selectedTabFragment = TabContainerFragment()
-                        bundle.putString("name", "6Pack")
+                        bundle.putString("tabName", "6Pack")
                         selectedTabFragment!!.setArguments(bundle)
                         selectedTabId = R.id.othersTabContainer
                         othersIsAlreadyDisplayed = true

@@ -16,17 +16,6 @@ open class BaseFragment : Fragment() {
 
     protected var mListener: OnFragmentInteractionListener? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
-    // TODO: Rename method, update argument and hook method into UI event
-    fun onButtonPressed(uri: Uri) {
-        if (mListener != null) {
-            mListener!!.onFragmentInteraction(uri)
-        }
-    }
-
     override fun onAttach(context: Context?) {
         super.onAttach(context)
         mListener = parentFragment as BaseFragment.OnFragmentInteractionListener?
@@ -51,6 +40,6 @@ open class BaseFragment : Fragment() {
      */
     interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
-        fun onFragmentInteraction(uri: Uri)
+        fun onFragmentInteraction(cityName: String?, cityId: String?)
     }
 }// Required empty public constructor
