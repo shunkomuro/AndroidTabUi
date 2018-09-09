@@ -1,5 +1,6 @@
 package com.example.komuroshun.androidtabui.weather
 
+import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,12 +8,8 @@ import android.view.ViewGroup
 import com.example.komuroshun.androidtabui.BaseFragment
 
 import com.example.komuroshun.androidtabui.R
-import com.example.komuroshun.androidtabui.data.source.remote.api.Api
-import com.example.komuroshun.androidtabui.data.source.remote.WeatherInfo
-import kotlinx.android.synthetic.main.fragment_weather_info.*
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import com.example.komuroshun.androidtabui.databinding.FragmentWeatherInfoBinding
+import com.example.komuroshun.androidtabui.viewmodel.WeatherInfoViewModel
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -27,6 +24,7 @@ class WeatherInfoFragment : BaseFragment() {
 
     private var cityName: String? = null
     private var cityId: Int = 0
+    private val weatherInfoViewModel: WeatherInfoViewModel = WeatherInfoViewModel.create()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,30 +36,20 @@ class WeatherInfoFragment : BaseFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_weather_info, container, false)
+        val binding: FragmentWeatherInfoBinding = DataBindingUtil.inflate(inflater
+                , R.layout.fragment_weather_info, container, false)
+        binding.setViewModel(weatherInfoViewModel)
+        return binding.getRoot()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
-        Api.newInstance().myApiService!!.weatherInfo(cityId).enqueue(object: Callback<WeatherInfo> {
-            override fun onResponse(call: Call<WeatherInfo>, response: Response<WeatherInfo>) {
-                val weatherInfo: WeatherInfo? = response.body()
-                if (weatherInfo!!.forecasts.isNotEmpty()) {
-                    tvCityName.text = cityName + "の" + weatherInfo!!.forecasts[0].dateLabel + "の天気: "
-                    tvWeatherTelop.text = weatherInfo!!.forecasts[0].telop
-                }
-                tvWeatherDesc.text = weatherInfo!!.description.text
-            }
-
-            override fun onFailure(call: Call<WeatherInfo>, t: Throwable) {
-            }
-        })
+        weatherInfoViewModel.getWeatherInfo(cityId, cityName!!)
     }
 
     companion object {
         /**
-         * @param cityName Parameter 1.
-         * @param cityId Parameter 2.
+         * @param cityName city's name.
+         * @param cityId city's primary id.
          * @return A new instance of fragment WeatherInfoFragment.
          */
         @JvmStatic

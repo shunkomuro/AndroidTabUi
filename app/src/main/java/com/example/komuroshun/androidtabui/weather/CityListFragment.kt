@@ -15,6 +15,7 @@ import com.example.komuroshun.androidtabui.BaseFragment
 import kotlinx.android.synthetic.main.fragment_city_list.*
 
 import com.example.komuroshun.androidtabui.R
+import com.example.komuroshun.androidtabui.viewmodel.WeatherInfoViewModel
 import java.util.*
 
 // TODO: Rename parameter arguments, choose names that match
