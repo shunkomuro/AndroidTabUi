@@ -1,33 +1,24 @@
-//package com.example.komuroshun.androidtabui.data.repository
-//
-//import com.example.komuroshun.androidtabui.data.source.remote.WeatherInfo
-//import com.example.komuroshun.androidtabui.data.source.remote.api.Api
-//import com.example.komuroshun.androidtabui.data.source.remote.api.MyApiService
-//import retrofit2.Call
-//import retrofit2.Callback
-//import retrofit2.Response
-//
-//class WeatherInfoRepository {
-//    private var myApiService: MyApiService? = null;
-//
-//    companion object {
-//        fun newInstance(): WeatherInfoRepository = WeatherInfoRepository()
-//    }
-//    init {
-//        myApiService = Api.newInstance().myApiService
-//    }
-//
-//    public fun getWeatherInfoByCityId(cityId: Int): WeatherInfo {
-//        myApiService!!.weatherInfo(cityId).enqueue(object: Callback<WeatherInfo> {
-//            override fun onResponse(call: Call<WeatherInfo>, response: Response<WeatherInfo>) {
-////                val weatherInfo: WeatherInfo? = response.body()
-////                tvCityName.text = cityName + "の" + weatherInfo!!.forecasts[0].dateLabel + "の天気: "
-////                tvWeatherTelop.text = weatherInfo!!.forecasts[0].telop
-////                tvWeatherDesc.text = weatherInfo!!.description.text
-//            }
-//
-//            override fun onFailure(call: Call<WeatherInfo>, t: Throwable) {
-//            }
-//        })
-//    }
-//}
+package com.example.komuroshun.androidtabui.data.repository
+
+import android.util.Log
+import com.example.komuroshun.androidtabui.data.source.remote.WeatherInfo
+
+import com.example.komuroshun.androidtabui.data.source.remote.api.Api
+import com.example.komuroshun.androidtabui.data.source.remote.api.MyApiService
+import io.reactivex.Observable
+
+class WeatherInfoRepository {
+    private var myApiService: MyApiService? = null;
+    companion object {
+        fun create(): WeatherInfoRepository = WeatherInfoRepository()
+    }
+    //TODO Does it have meaning todo with init method ?
+    init {
+        myApiService = Api.newInstance().myApiService
+    }
+
+    //TODO Use Single RxJava class ?
+    fun getWeatherInfoByCityId(cityId: Int): Observable<WeatherInfo> {
+        return myApiService!!.weatherInfo(cityId)
+    }
+}
