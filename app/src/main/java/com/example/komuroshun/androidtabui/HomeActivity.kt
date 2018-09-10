@@ -38,9 +38,6 @@ class HomeActivity : AppCompatActivity(), /*FragmentTabHost.OnTabChangeListener,
         val toolbar = findViewById<View>(R.id.tool_bar) as Toolbar
         toolbar.title = ""
         setSupportActionBar(toolbar)
-        val spinner = toolbar.findViewById<View>(R.id.tool_bar_spinner) as Spinner
-        spinner.adapter = ArrayAdapter.createFromResource(this, R.array.fragment_names,
-                android.R.layout.simple_spinner_dropdown_item)
 
         BottomNavigationViewHelper.disableShiftMode(bottomNavigation);
         bottomNavigation.setOnNavigationItemSelectedListener { item ->
