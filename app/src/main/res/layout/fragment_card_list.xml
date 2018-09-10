@@ -12,7 +12,7 @@
         android:textAlignment="textStart"
         android:text="キャンペーンはじめました！"
         android:textSize="16dp"
-        android:textColor="#ff8c00"
+        android:textColor="@color/colorAccent"
         android:visibility="invisible" />
     <ListView
         android:id="@android:id/list"
