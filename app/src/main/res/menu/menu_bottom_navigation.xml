@@ -2,22 +2,22 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/nav_home"
-        android:icon="@drawable/selector_bottom_tab_home"
+        android:icon="@drawable/ic_bottom_tab_home"
         android:title="ホーム"/>
     <item
         android:id="@+id/nav_notice"
-        android:icon="@drawable/selector_bottom_tab_notice"
+        android:icon="@drawable/ic_bottom_tab_notice"
         android:title="天気"/>
     <item
         android:id="@+id/nav_point"
-        android:icon="@drawable/selector_bottom_tab_point"
+        android:icon="@drawable/ic_bottom_tab_point"
         android:title="ポイント"/>
     <item
         android:id="@+id/nav_history"
-        android:icon="@drawable/selector_bottom_tab_history"
+        android:icon="@drawable/ic_bottom_tab_history"
         android:title="履歴"/>
     <item
         android:id="@+id/nav_others"
-        android:icon="@drawable/selector_bottom_tab_others"
+        android:icon="@drawable/ic_bottom_tab_others"
         android:title="その他"/>
 </menu>

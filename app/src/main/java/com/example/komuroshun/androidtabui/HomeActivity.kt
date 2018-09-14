@@ -34,7 +34,6 @@ class HomeActivity : AppCompatActivity(), /*FragmentTabHost.OnTabChangeListener,
 
         // Toolbar Settings
         //TODO:inflate menu by viewModel
-        toolbar.title = ""
         toolbar.inflateMenu(R.menu.menu_toolbar)
 
         BottomNavigationViewHelper.disableShiftMode(bottomNavigation);

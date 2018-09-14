@@ -4,13 +4,13 @@
     <item
         android:id="@+id/action_notice"
         android:orderInCategory="100"
-        android:icon="@drawable/ic_bottom_tab_notice_deactive"
+        android:icon="@drawable/ic_bottom_tab_notice"
         android:title="通知"
         app:showAsAction="always" />
     <item
         android:id="@+id/action_setting"
         android:orderInCategory="100"
-        android:icon="@drawable/ic_bottom_tab_others_deactive"
+        android:icon="@drawable/ic_bottom_tab_others"
         android:title="設定"
         app:showAsAction="always" />
 </menu>
