@@ -1,20 +1,18 @@
 package com.example.komuroshun.androidtabui.card
 
 import android.content.Context
-import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
+import android.databinding.DataBindingUtil
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.ArrayAdapter
-import android.widget.ImageView
-import android.widget.TextView
 
 import com.example.komuroshun.androidtabui.R
+import com.example.komuroshun.androidtabui.databinding.ItemCardBinding
 
-class CardListAdapter(context: Context) : ArrayAdapter<PackageInfo>(context, 0) {
+class CardListAdapter(context: Context) : ArrayAdapter<CardItemViewModel>(context, 0) {
 
     internal var mLayoutInflater: LayoutInflater
     internal var mPackageManager: PackageManager
@@ -27,26 +25,19 @@ class CardListAdapter(context: Context) : ArrayAdapter<PackageInfo>(context, 0) 
 
     // 表示するリストアイテムのビューを返却する
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+        val binding: ItemCardBinding
+
         var convertView = convertView
         if (convertView == null) {
-            convertView = mLayoutInflater.inflate(R.layout.item_card, parent, false)
+            val inflater: LayoutInflater = LayoutInflater.from(getContext())
+            binding = DataBindingUtil.inflate(inflater, R.layout.item_card, parent, false)
+            convertView = binding.root
+            convertView.setTag(binding)
+        } else {
+            binding = convertView.getTag() as ItemCardBinding
         }
 
-        val mPackageInfo = getItem(position)
-
-        // タイトル
-        val mItemTitleTextView = convertView!!.findViewById<View>(R.id.title) as TextView
-        mItemTitleTextView.text = mPackageInfo!!.applicationInfo.loadLabel(mPackageManager)
-
-        // パッケージ名など
-        val mItemPackageInfoTextView = convertView.findViewById<View>(R.id.sub) as TextView
-        mItemPackageInfoTextView.text = (mPackageInfo.packageName + System.getProperty("line.separator")
-                + "versionName : " + mPackageInfo.versionName + System.getProperty("line.separator")
-                + "versionCode : " + mPackageInfo.versionCode)
-
-        // アイコン
-        val mItemIconImageView = convertView.findViewById<View>(R.id.icon) as ImageView
-        mItemIconImageView.setImageDrawable(mPackageInfo.applicationInfo.loadIcon(mPackageManager))
+        binding.setViewModel(getItem(position))
 
         if (mLastAnimationPosition < position) {
             val mCardAnimation = AnimationUtils.loadAnimation(context, R.anim.motion)
@@ -54,6 +45,6 @@ class CardListAdapter(context: Context) : ArrayAdapter<PackageInfo>(context, 0) 
             mLastAnimationPosition = position
         }
 
-        return convertView
+        return binding.root
     }
 }
