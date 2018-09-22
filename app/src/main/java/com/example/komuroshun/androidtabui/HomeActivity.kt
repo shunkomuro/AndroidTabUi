@@ -4,11 +4,9 @@ import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.Toolbar
 import android.view.View
-import android.widget.ArrayAdapter
-import android.widget.Spinner
 import kotlinx.android.synthetic.main.activity_home.*
+import kotlinx.android.synthetic.main.widget_toolbar.*
 
 /**
  * Activities manage fragments.
@@ -35,12 +33,8 @@ class HomeActivity : AppCompatActivity(), /*FragmentTabHost.OnTabChangeListener,
         homeIsAlreadyDisplayed = true
 
         // Toolbar Settings
-        val toolbar = findViewById<View>(R.id.tool_bar) as Toolbar
-        toolbar.title = ""
-        setSupportActionBar(toolbar)
-        val spinner = toolbar.findViewById<View>(R.id.tool_bar_spinner) as Spinner
-        spinner.adapter = ArrayAdapter.createFromResource(this, R.array.fragment_names,
-                android.R.layout.simple_spinner_dropdown_item)
+        //TODO:inflate menu by viewModel
+        toolbar.inflateMenu(R.menu.menu_toolbar)
 
         BottomNavigationViewHelper.disableShiftMode(bottomNavigation);
         bottomNavigation.setOnNavigationItemSelectedListener { item ->

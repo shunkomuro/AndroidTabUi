@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_notice"
+        android:orderInCategory="100"
+        android:icon="@drawable/ic_bottom_tab_notice"
+        android:title="通知"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/action_setting"
+        android:orderInCategory="100"
+        android:icon="@drawable/ic_bottom_tab_others"
+        android:title="設定"
+        app:showAsAction="always" />
+</menu>

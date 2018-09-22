@@ -5,52 +5,41 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".HomeActivity">
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/tool_bar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="@style/ThemeOverlay.AppCompat.ActionBar">
-        <Spinner
-            android:id="@+id/tool_bar_spinner"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </android.support.v7.widget.Toolbar>
+    <include layout="@layout/widget_toolbar"/>
     <FrameLayout
         android:id="@+id/homeTabContainer"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:visibility="visible"
-        app:layout_constraintTop_toBottomOf="@+id/tool_bar">
+        app:layout_constraintTop_toBottomOf="@+id/toolbar">
     </FrameLayout>
     <FrameLayout
         android:id="@+id/noticeTabContainer"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:visibility="gone"
-        app:layout_constraintTop_toBottomOf="@+id/tool_bar">
+        app:layout_constraintTop_toBottomOf="@+id/toolbar">
     </FrameLayout>
     <FrameLayout
         android:id="@+id/pointTabContainer"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:visibility="gone"
-        app:layout_constraintTop_toBottomOf="@+id/tool_bar">
+        app:layout_constraintTop_toBottomOf="@+id/toolbar">
     </FrameLayout>
     <FrameLayout
         android:id="@+id/historyTabContainer"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:visibility="gone"
-        app:layout_constraintTop_toBottomOf="@+id/tool_bar">
+        app:layout_constraintTop_toBottomOf="@+id/toolbar">
     </FrameLayout>
     <FrameLayout
         android:id="@+id/othersTabContainer"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:visibility="gone"
-        app:layout_constraintTop_toBottomOf="@+id/tool_bar">
+        app:layout_constraintTop_toBottomOf="@+id/toolbar">
     </FrameLayout>
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/bottomNavigation"
@@ -59,7 +48,9 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
         android:layout_gravity="bottom"
-        android:background="?android:attr/windowBackground"
+        android:background="@color/colorPrimary"
+        app:itemIconTint="@drawable/selector_bottom_tab"
+        app:itemTextColor="@drawable/selector_bottom_tab"
         app:layout_constraintBottom_toBottomOf="parent"
         app:menu="@menu/menu_bottom_navigation">
     </android.support.design.widget.BottomNavigationView>
