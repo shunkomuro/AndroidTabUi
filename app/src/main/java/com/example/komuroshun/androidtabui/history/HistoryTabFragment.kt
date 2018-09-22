@@ -1,49 +1,28 @@
 package com.example.komuroshun.androidtabui.history
 
-import android.app.Activity
-import android.content.Context
 import android.graphics.Color
-import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
-import android.support.v4.view.PagerAdapter
 import android.support.v4.view.ViewPager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
-import android.widget.HorizontalScrollView
 import android.widget.TextView
 
 import com.example.komuroshun.androidtabui.BaseFragment
 import com.example.komuroshun.androidtabui.R
-import com.example.komuroshun.androidtabui.util.CustomLog
+import kotlinx.android.synthetic.main.tab_track.*
 
 /**
  * This Fragment set up a history scroll tab view and view pager.
- * @author Shun Komuro
- * @version 1.0
  */
 class HistoryTabFragment : BaseFragment() {
     private var mIndicatorOffset: Int = 0
-
-    // タブ部分のスクローラー
-    private var mTrackScroller: HorizontalScrollView? = null
     // タブのコンテナ
     private var mTrack: ViewGroup? = null
-    // インディケータ
-    private var mIndicator: View? = null
-
-    private val mParam1: String? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        //        if (getArguments() != null) {
-        //            mParam1 = getArguments().getString(ARG_PARAM1);
-        //        }
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -51,10 +30,8 @@ class HistoryTabFragment : BaseFragment() {
         val density = resources.displayMetrics.density
         mIndicatorOffset = (INDICATOR_OFFSET * density).toInt()
 
-        //View を取得
-        mTrackScroller = view.findViewById(R.id.track_scroller)
+        // View を取得する
         mTrack = view.findViewById(R.id.track)
-        mIndicator = view.findViewById(R.id.indicator)
 
         // ViewPager のセットアップ
         val adapter = ViewPagerAdapter(childFragmentManager)
@@ -103,31 +80,25 @@ class HistoryTabFragment : BaseFragment() {
                 mTrack!!.getChildAt(position + 1)
 
             val left = view.left
-//            CustomLog.output("debug", "updateIndicatorPosition", "left : " + left.toString())
 
             // 現在の位置のタブの横幅
             val width = view.width
-//            CustomLog.output("debug", "updateIndicatorPosition", "width : " + width.toString())
             // 現在の位置の次のタブの横幅
             val width2 = view2?.width ?: width
-//            CustomLog.output("debug", "updateIndicatorPosition", "width2 : " + width2.toString())
 
             // インディケータの幅
             val indicatorWidth = (width2 * positionOffset + width * (1 - positionOffset)).toInt()
-//            CustomLog.output("debug", "updateIndicatorPosition", "indicatorWidth : " + indicatorWidth.toString())
             // インディケータの左端の位置
             val indicatorLeft = (left + positionOffset * width).toInt()
-//            CustomLog.output("debug", "updateIndicatorPosition", "indicatorLeft : " + indicatorLeft.toString())
-//            CustomLog.output("debug", "updateIndicatorPosition", "mIndicatorOffset : " + mIndicatorOffset.toString())
             // インディケータの幅と左端の位置をセット
-            val layoutParams = mIndicator!!
-                    .layoutParams as FrameLayout.LayoutParams
+            val layoutParams = indicator.layoutParams as FrameLayout.LayoutParams
             layoutParams.width = indicatorWidth
             layoutParams.setMargins(indicatorLeft, 0, 0, 0)
-            mIndicator!!.layoutParams = layoutParams
+            indicator.layoutParams = layoutParams
 
+            // タブ部分のスクローラー
             // インディケータが画面に入るように、タブの領域をスクロール
-            mTrackScroller!!.scrollTo(indicatorLeft - mIndicatorOffset, 0)
+            track_scroller.scrollTo(indicatorLeft - mIndicatorOffset, 0)
         }
     }
 
@@ -180,23 +151,13 @@ class HistoryTabFragment : BaseFragment() {
     }
 
     companion object {
-
-        //    private static final String ARG_PARAM1 = "param1";
         // インディケータのオフセット
         private val INDICATOR_OFFSET = 130 // 48dp
-
         /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @return A new instance of fragment HistoryTabFragment.
+         * @return A new instance of fragment CardListFragment.
          */
-        fun newInstance(param1: String): HistoryTabFragment {
-//        Bundle args = new Bundle();
-            //        args.putString(ARG_PARAM1, param1);
-            //        fragment.setArguments(args);
+        fun newInstance(): HistoryTabFragment {
             return HistoryTabFragment()
         }
     }
-}// Required empty public constructor
+}

@@ -39,9 +39,7 @@ class TabContainerFragment : Fragment(),
             when (tabName) {
                 HOME_TAB -> { targetFragment = CardListFragment.newInstance() }
                 WEATHER_TAB -> { targetFragment = CityListFragment.newInstance() }
-                HISTORY_TAB -> {
-                    targetFragment = HistoryTabFragment.newInstance("Param1")
-                }
+                HISTORY_TAB -> { targetFragment = HistoryTabFragment.newInstance() }
                 SIXPACK_TAB -> {
                     targetFragment = SixPackFragment.newInstance("Param1", "Param2")
                 }
