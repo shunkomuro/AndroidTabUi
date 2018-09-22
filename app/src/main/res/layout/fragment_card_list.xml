@@ -10,7 +10,7 @@
         android:paddingLeft="12dp"
         android:background="@drawable/bg_btn_campaign"
         android:textAlignment="textStart"
-        android:text="キャンペーンはじめました！"
+        android:text="ボタン1"
         android:textSize="16dp"
         android:textColor="@color/colorAccent"
         android:visibility="invisible" />

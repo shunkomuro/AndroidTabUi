@@ -1,24 +1,18 @@
 package com.example.komuroshun.androidtabui.weather
 
-import android.content.Context
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
-import android.widget.ListView
 import android.widget.SimpleAdapter
 import com.example.komuroshun.androidtabui.BaseFragment
 import kotlinx.android.synthetic.main.fragment_city_list.*
 
 import com.example.komuroshun.androidtabui.R
-import com.example.komuroshun.androidtabui.viewmodel.WeatherInfoViewModel
 import java.util.*
 
-// TODO: Rename parameter arguments, choose names that match
+// TODO: 引数名変える
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
@@ -26,17 +20,6 @@ private const val ARG_PARAM2 = "param2"
  * This Fragment display city's weather info list.
  */
 class CityListFragment : BaseFragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -84,9 +67,10 @@ class CityListFragment : BaseFragment() {
 
         val from = arrayOf("name")
         val to = intArrayOf(android.R.id.text1)
-        val adapter = SimpleAdapter(activity, list, android.R.layout.simple_expandable_list_item_1, from, to)
-
+        val adapter = SimpleAdapter(activity, list,
+                android.R.layout.simple_expandable_list_item_1,from, to)
         cityList.adapter = adapter
+
         cityList.onItemClickListener = ListItemClickListener()
     }
 
@@ -96,32 +80,17 @@ class CityListFragment : BaseFragment() {
             val item = parent.getItemAtPosition(position) as Map<String, String>
             val cityName = item["name"]
             val cityId = item["id"]
+            // TODO: 画面遷移のやり方を整理する
             mListener!!.onFragmentInteraction(cityName, cityId)
-//            mListener!!.onFragmentInteraction()
-//            val intent = Intent(activity, WeatherInfoActivity::class.java)
-//            intent.putExtra("cityName", cityName)
-//            intent.putExtra("cityId", cityId)
-//            startActivity(intent)
         }
     }
 
     companion object {
         /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
          * @return A new instance of fragment CityListFragment.
          */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-                CityListFragment().apply {
-                    arguments = Bundle().apply {
-                        putString(ARG_PARAM1, param1)
-                        putString(ARG_PARAM2, param2)
-                    }
-                }
+        fun newInstance(): CityListFragment {
+            return CityListFragment()
+        }
     }
 }

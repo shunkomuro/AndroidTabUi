@@ -6,7 +6,6 @@ import android.graphics.drawable.Drawable
 import com.example.komuroshun.androidtabui.BR
 
 class CardItemViewModel: BaseObservable() {
-    //TODO: Is there no problem with "optional" ?
     private var appTitle: String? = null
     private var packageDetail: String? = null
     private var packageIcon: Drawable? = null
