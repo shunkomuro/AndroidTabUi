@@ -20,7 +20,8 @@ open class BaseFragment : Fragment() {
         super.onAttach(context)
         mListener = parentFragment as BaseFragment.OnFragmentInteractionListener?
         if (mListener == null) {
-            throw RuntimeException(context!!.toString() + " must implement OnFragmentInteractionListener")
+            throw RuntimeException(context!!.toString()
+                    + " must implement OnFragmentInteractionListener")
         }
     }
 
@@ -30,16 +31,11 @@ open class BaseFragment : Fragment() {
     }
 
     /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
      *
-     *
-     * See the Android Training lesson [Communicating with Other Fragments](http://developer.android.com/training/basics/fragments/communicating.html) for more information.
      */
     interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
+        // TODO: 画面遷移のやり方を整理する
         fun onFragmentInteraction(cityName: String?, cityId: String?)
+        fun onFragmentBack()
     }
 }// Required empty public constructor

@@ -19,7 +19,9 @@ private const val ARG_TAB_NAME = "tabName"
 /**
  * BaseFragment.onFragmentInteractionListner を拡張した Fragment の切り替え操作をする
  */
-class TabContainerFragment : Fragment(), BaseFragment.OnFragmentInteractionListener, CardListFragment.OnFragmentInteractionListener {
+class TabContainerFragment : Fragment(),
+        BaseFragment.OnFragmentInteractionListener,
+        CardListFragment.OnFragmentInteractionListener {
 
     internal val HOME_TAB = "ホーム"
     internal val WEATHER_TAB = "天気"
@@ -35,12 +37,8 @@ class TabContainerFragment : Fragment(), BaseFragment.OnFragmentInteractionListe
             val tabName = arguments!!.getString(ARG_TAB_NAME)
             var targetFragment: Fragment? = null
             when (tabName) {
-                HOME_TAB -> {
-                    targetFragment = CardListFragment.newInstance()
-                }
-                WEATHER_TAB -> {
-                    targetFragment = CityListFragment.newInstance("tes1", "tes2")
-                }
+                HOME_TAB -> { targetFragment = CardListFragment.newInstance() }
+                WEATHER_TAB -> { targetFragment = CityListFragment.newInstance() }
                 HISTORY_TAB -> {
                     targetFragment = HistoryTabFragment.newInstance("Param1")
                 }
@@ -49,7 +47,7 @@ class TabContainerFragment : Fragment(), BaseFragment.OnFragmentInteractionListe
                 }
             }
             fragmentTransaction.replace(R.id.TabContainer, targetFragment)
-            fragmentTransaction.addToBackStack(null) // 戻るボタンでreplace前に戻る
+            fragmentTransaction.addToBackStack(null)
             fragmentTransaction.commit()
         }
         return inflater.inflate(R.layout.fragment_tab_container, container, false)
@@ -60,7 +58,8 @@ class TabContainerFragment : Fragment(), BaseFragment.OnFragmentInteractionListe
         if (context is OnFragmentInteractionListener) {
             mListener = context
         } else {
-            throw RuntimeException(context!!.toString() + " must implement OnFragmentInteractionListener")
+            throw RuntimeException(context!!.toString()
+                    + " must implement OnFragmentInteractionListener")
         }
     }
 
@@ -82,8 +81,12 @@ class TabContainerFragment : Fragment(), BaseFragment.OnFragmentInteractionListe
         val fragmentTransaction = childFragmentManager.beginTransaction()
         val weatherInfoFragment = WeatherInfoFragment.newInstance(cityName!!, cityId!!)
         fragmentTransaction.replace(R.id.TabContainer, weatherInfoFragment)
-        fragmentTransaction.addToBackStack(null) // 戻るボタンでreplace前に戻る
+        fragmentTransaction.addToBackStack(null)
         fragmentTransaction.commit()
+    }
+
+    override fun onFragmentBack() {
+        childFragmentManager.popBackStack()
     }
 
     /**
@@ -93,4 +96,4 @@ class TabContainerFragment : Fragment(), BaseFragment.OnFragmentInteractionListe
     override fun onFragmentInteraction(uri: Uri) {
 
     }
-}// Required empty public constructor
+}

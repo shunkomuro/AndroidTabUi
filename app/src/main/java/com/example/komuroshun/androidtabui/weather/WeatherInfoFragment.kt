@@ -2,6 +2,7 @@ package com.example.komuroshun.androidtabui.weather
 
 import android.databinding.DataBindingUtil
 import android.os.Bundle
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,10 +10,8 @@ import com.example.komuroshun.androidtabui.BaseFragment
 
 import com.example.komuroshun.androidtabui.R
 import com.example.komuroshun.androidtabui.databinding.FragmentWeatherInfoBinding
-import com.example.komuroshun.androidtabui.viewmodel.WeatherInfoViewModel
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+// TODO 変数名変える
 private const val ARG_CITY_NAME = "param1"
 private const val ARG_CITY_ID = "param2"
 
@@ -43,6 +42,17 @@ class WeatherInfoFragment : BaseFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+        view.isFocusableInTouchMode = true
+        view.requestFocus()
+        view.setOnKeyListener(View.OnKeyListener { v, keyCode, event ->
+            if (event.action != KeyEvent.ACTION_DOWN) return@OnKeyListener false
+            if (keyCode == KeyEvent.KEYCODE_BACK) {
+                mListener!!.onFragmentBack()
+                return@OnKeyListener true
+            }
+            false
+        })
         weatherInfoViewModel.getWeatherInfo(cityId, cityName!!)
     }
 
