@@ -13,7 +13,8 @@ import kotlinx.android.synthetic.main.widget_toolbar.*
  * @author Shun Komuro
  * @version 1.0
  */
-class HomeActivity : AppCompatActivity(), /*FragmentTabHost.OnTabChangeListener,*/ PageFragment.OnFragmentInteractionListener, TabContainerFragment.OnFragmentInteractionListener {
+class HomeActivity : AppCompatActivity(), PageFragment.OnFragmentInteractionListener,
+        TabContainerFragment.OnFragmentInteractionListener {
     private var homeIsAlreadyDisplayed = false
     private var noticeIsAlreadyDisplayed = false
     private var pointIsAlreadyDisplayed = false
@@ -29,11 +30,12 @@ class HomeActivity : AppCompatActivity(), /*FragmentTabHost.OnTabChangeListener,
         var bundle = Bundle()
         bundle.putString("tabName", "ホーム")
         firstViewFragment!!.setArguments(bundle)
-        switchToSelectedTab(selectedTabFragment = firstViewFragment, selectedTabId = R.id.homeTabContainer, selectedTab = homeTabContainer)
+        switchToSelectedTab(selectedTabFragment = firstViewFragment,
+                selectedTabId = R.id.homeTabContainer, selectedTab = homeTabContainer)
         homeIsAlreadyDisplayed = true
 
         // Toolbar Settings
-        //TODO:inflate menu by viewModel
+        //TODO:toolbar は 各 Fragment でもつようにする
         toolbar.inflateMenu(R.menu.menu_toolbar)
 
         BottomNavigationViewHelper.disableShiftMode(bottomNavigation);
@@ -94,12 +96,14 @@ class HomeActivity : AppCompatActivity(), /*FragmentTabHost.OnTabChangeListener,
                     selectedTab = othersTabContainer
                 }
             }
-            switchToSelectedTab(selectedTabFragment = selectedTabFragment, selectedTabId = selectedTabId, selectedTab = selectedTab)
+            switchToSelectedTab(selectedTabFragment = selectedTabFragment,
+                    selectedTabId = selectedTabId, selectedTab = selectedTab)
             return@setOnNavigationItemSelectedListener true
         }
     }
 
-    private fun switchToSelectedTab(selectedTabFragment: Fragment? = null, selectedTabId: Int, selectedTab: View? = null) {
+    private fun switchToSelectedTab(selectedTabFragment: Fragment? = null,
+                                    selectedTabId: Int, selectedTab: View? = null) {
         if (selectedTabFragment != null) {
             supportFragmentManager.beginTransaction()
                     .replace(selectedTabId, selectedTabFragment)
@@ -120,7 +124,6 @@ class HomeActivity : AppCompatActivity(), /*FragmentTabHost.OnTabChangeListener,
     override fun onFragmentInteraction(uri: Uri) {}
 
     companion object {
-
         private val TAG = HomeActivity::class.java.name
     }
 }
