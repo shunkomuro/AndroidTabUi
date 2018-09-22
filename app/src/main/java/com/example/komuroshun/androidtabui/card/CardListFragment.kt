@@ -26,13 +26,11 @@ import com.example.komuroshun.androidtabui.R
  */
 class CardListFragment : ListFragment() {
 
-    //TODO: Inject context and change to val
+    //TODO: Dagger2 を使う
     private var mCardListViewModel: CardListViewModel? = null
-    private var mListener: OnFragmentInteractionListener? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
         return inflater!!.inflate(R.layout.fragment_card_list, container, false)
     }
 
@@ -52,7 +50,8 @@ class CardListFragment : ListFragment() {
         // 余白用のヘッダー、フッターを追加
         val layoutInflater = LayoutInflater.from(activity)
         val header = layoutInflater.inflate(R.layout.parts_card_list_header, listView, false)
-        //TODO:campaign button is visible or gone
+        //TODO: viewModel で管理する
+        //TODO: Visible, Gone を切り替える
         val footer = layoutInflater.inflate(R.layout.parts_card_list_footer, listView, false)
         listView.addHeaderView(header, null, false)
         listView.addFooterView(footer, null, false)
@@ -65,17 +64,12 @@ class CardListFragment : ListFragment() {
             override fun onAnimationStart(animation: Animation) {}
             override fun onAnimationEnd(animation: Animation) {
                 campaignButton.visibility = View.VISIBLE
-                //                        listView.setVisibility(View.GONE);
+                // listView.setVisibility(View.GONE);
             }
 
             override fun onAnimationRepeat(animation: Animation) {}
         })
         campaignButton.startAnimation(feedinButton)
-    }
-
-    override fun onDetach() {
-        super.onDetach()
-        mListener = null
     }
 
     private fun startCardAnimation(card: View) {
@@ -121,12 +115,9 @@ class CardListFragment : ListFragment() {
      * fragment to allow an interaction in this fragment to be communicated
      * to the activity and potentially other fragments contained in that
      * activity.
-     *
-     *
-     * See the Android Training lesson [Communicating with Other Fragments](http://developer.android.com/training/basics/fragments/communicating.html) for more information.
      */
     interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
+        // TODO: 画面遷移の方法を変える Navigator が使えるか検討
         fun onFragmentInteraction(uri: Uri)
     }
 
@@ -138,4 +129,4 @@ class CardListFragment : ListFragment() {
             return CardListFragment()
         }
     }
-}// Required empty public constructor
+}

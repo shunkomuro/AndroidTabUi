@@ -15,20 +15,23 @@ class CardListViewModel(context: Context): BaseObservable() {
 
     init {
         mContext = context
-        //TODO: Delete the following method after implementing Dagger
+        //TODO: Dagger2 を使うようにする
         mAppPackageRepository.setContext(context)
     }
 
-    //TODO: Is it OK to return adapter ?
+    //TODO: Adapter の扱いはこれでいいのか
     fun getCardListAdapter(): CardListAdapter {
         val cardItemViewModelList: ArrayList<CardItemViewModel> = ArrayList()
         mAppPackageRepository.getAppPackages()
                 .map(object: (PackageInfo)->Unit {
                     override fun invoke(packageInfo: PackageInfo) {
                         var cardItemViewModel: CardItemViewModel = CardItemViewModel.create()
-                        cardItemViewModel.setAppTitle(packageInfo.applicationInfo.loadLabel(mContext!!.packageManager) as String)
-                        cardItemViewModel.setPackageDetail(packageInfo.packageName, packageInfo.versionName, Integer.toString(packageInfo.versionCode))
-                        cardItemViewModel.setPackageIcon(packageInfo.applicationInfo.loadIcon(mContext!!.packageManager))
+                        cardItemViewModel.setAppTitle(packageInfo.applicationInfo
+                                .loadLabel(mContext!!.packageManager) as String)
+                        cardItemViewModel.setPackageDetail(packageInfo.packageName,
+                                packageInfo.versionName, Integer.toString(packageInfo.versionCode))
+                        cardItemViewModel.setPackageIcon(packageInfo.applicationInfo
+                                .loadIcon(mContext!!.packageManager))
                         cardItemViewModelList.add(cardItemViewModel)
                     }
 
