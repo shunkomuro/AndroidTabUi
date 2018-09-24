@@ -36,6 +36,8 @@ open class BaseFragment : Fragment() {
     interface OnFragmentInteractionListener {
         // TODO: 画面遷移のやり方を整理する
         fun onFragmentInteraction(cityName: String?, cityId: String?)
+        fun onFragmentInteraction(url: String?)
+        fun onFragmentInteraction(uri: Uri)
         fun onFragmentBack()
     }
-}// Required empty public constructor
+}
