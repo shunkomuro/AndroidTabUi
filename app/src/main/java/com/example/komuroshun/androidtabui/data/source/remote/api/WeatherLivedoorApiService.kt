@@ -5,7 +5,7 @@ import io.reactivex.Observable
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-interface MyApiService {
+interface WeatherLivedoorApiService {
     
     @GET("forecast/webservice/json/v1")
     fun weatherInfo(@Query("city") cityId: Int): Observable<WeatherInfo>

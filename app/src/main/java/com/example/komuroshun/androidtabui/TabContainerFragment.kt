@@ -10,7 +10,7 @@ import android.view.ViewGroup
 
 import com.example.komuroshun.androidtabui.card.CardListFragment
 import com.example.komuroshun.androidtabui.history.HistoryTabFragment
-import com.example.komuroshun.androidtabui.sixpack.SixPackFragment
+import com.example.komuroshun.androidtabui.qiita.QiitaArticlesFragment
 import com.example.komuroshun.androidtabui.weather.CityListFragment
 import com.example.komuroshun.androidtabui.weather.WeatherInfoFragment
 
@@ -26,7 +26,7 @@ class TabContainerFragment : Fragment(),
     internal val HOME_TAB = "ホーム"
     internal val WEATHER_TAB = "天気"
     internal val HISTORY_TAB = "履歴"
-    internal val SIXPACK_TAB = "6Pack"
+    internal val QITA_TAB = "Qita"
 
     private var mListener: OnFragmentInteractionListener? = null
 
@@ -40,9 +40,7 @@ class TabContainerFragment : Fragment(),
                 HOME_TAB -> { targetFragment = CardListFragment.newInstance() }
                 WEATHER_TAB -> { targetFragment = CityListFragment.newInstance() }
                 HISTORY_TAB -> { targetFragment = HistoryTabFragment.newInstance() }
-                SIXPACK_TAB -> {
-                    targetFragment = SixPackFragment.newInstance("Param1", "Param2")
-                }
+                QITA_TAB -> { targetFragment = QiitaArticlesFragment.newInstance() }
             }
             fragmentTransaction.replace(R.id.TabContainer, targetFragment)
             fragmentTransaction.addToBackStack(null)
@@ -83,6 +81,14 @@ class TabContainerFragment : Fragment(),
         fragmentTransaction.commit()
     }
 
+    override fun onFragmentInteraction(url: String?) {
+        val fragmentTransaction = childFragmentManager.beginTransaction()
+        val webViewFragment = WebViewFragment.newInstance(url!!)
+        fragmentTransaction.add(R.id.TabContainer, webViewFragment)
+        fragmentTransaction.addToBackStack(null)
+        fragmentTransaction.commit()
+    }
+
     override fun onFragmentBack() {
         childFragmentManager.popBackStack()
     }
@@ -92,6 +98,16 @@ class TabContainerFragment : Fragment(),
      * @author Shun Komuro
      */
     override fun onFragmentInteraction(uri: Uri) {
-
+        var anonymousFragment = Class.forName(uri.fragment).newInstance() as BaseFragment
+        val fragmentTransaction = childFragmentManager.beginTransaction()
+        var args = Bundle()
+        var queryParameterNames: Set<String> = uri.queryParameterNames
+        for (queryParameterName in queryParameterNames) {
+            args.putString("arg_${queryParameterName}", uri.getQueryParameter(queryParameterName))
+        }
+        anonymousFragment.setArguments(args)
+        fragmentTransaction.add(R.id.TabContainer, anonymousFragment)
+        fragmentTransaction.addToBackStack(null)
+        fragmentTransaction.commit()
     }
 }
