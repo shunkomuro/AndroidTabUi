@@ -72,23 +72,6 @@ class TabContainerFragment : Fragment(),
      * @param uri Uri
      * @author Shun Komuro
      */
-    override fun onFragmentInteraction(cityName: String?, cityId: String?) {
-        //TODO routing liburary を探す
-        val fragmentTransaction = childFragmentManager.beginTransaction()
-        val weatherInfoFragment = WeatherInfoFragment.newInstance(cityName!!, cityId!!)
-        fragmentTransaction.replace(R.id.TabContainer, weatherInfoFragment)
-        fragmentTransaction.addToBackStack(null)
-        fragmentTransaction.commit()
-    }
-
-    override fun onFragmentBack() {
-        childFragmentManager.popBackStack()
-    }
-
-    /**
-     * @param uri Uri
-     * @author Shun Komuro
-     */
     override fun onFragmentInteraction(uri: Uri) {
         var anonymousFragment = Class.forName(uri.fragment).newInstance() as BaseFragment
         val fragmentTransaction = childFragmentManager.beginTransaction()
@@ -98,8 +81,12 @@ class TabContainerFragment : Fragment(),
             args.putString("arg_${queryParameterName}", uri.getQueryParameter(queryParameterName))
         }
         anonymousFragment.setArguments(args)
-        fragmentTransaction.add(R.id.TabContainer, anonymousFragment)
+        fragmentTransaction.replace(R.id.TabContainer, anonymousFragment)
         fragmentTransaction.addToBackStack(null)
         fragmentTransaction.commit()
+    }
+
+    override fun onFragmentBack() {
+        childFragmentManager.popBackStack()
     }
 }

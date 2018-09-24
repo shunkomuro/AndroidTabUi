@@ -1,5 +1,6 @@
 package com.example.komuroshun.androidtabui.weather
 
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +11,7 @@ import com.example.komuroshun.androidtabui.BaseFragment
 import kotlinx.android.synthetic.main.fragment_city_list.*
 
 import com.example.komuroshun.androidtabui.R
+import java.net.URLEncoder
 import java.util.*
 
 // TODO: 引数名変える
@@ -78,10 +80,12 @@ class CityListFragment : BaseFragment() {
 
         override fun onItemClick(parent: AdapterView<*>, view: View, position: Int, id: Long) {
             val item = parent.getItemAtPosition(position) as Map<String, String>
-            val cityName = item["name"]
-            val cityId = item["id"]
-            // TODO: 画面遷移のやり方を整理する
-            mListener!!.onFragmentInteraction(cityName, cityId)
+            var uri: Uri = Uri.parse("sampleapp://" +
+                    "androidtabui.example.com" +
+                    "?city_id=${item["id"]}" +
+                    "&city_name=${item["name"]}" +
+                    "#com.example.komuroshun.androidtabui.weather.WeatherInfoFragment")
+            mListener!!.onFragmentInteraction(uri)
         }
     }
 
