@@ -26,7 +26,7 @@ class TabContainerFragment : Fragment(),
     internal val HOME_TAB = "ホーム"
     internal val WEATHER_TAB = "天気"
     internal val HISTORY_TAB = "履歴"
-    internal val QITA_TAB = "Qita"
+    internal val QIITA_TAB = "Qiita"
 
     private var mListener: OnFragmentInteractionListener? = null
 
@@ -40,7 +40,7 @@ class TabContainerFragment : Fragment(),
                 HOME_TAB -> { targetFragment = CardListFragment.newInstance() }
                 WEATHER_TAB -> { targetFragment = CityListFragment.newInstance() }
                 HISTORY_TAB -> { targetFragment = HistoryTabFragment.newInstance() }
-                QITA_TAB -> { targetFragment = QiitaArticlesFragment.newInstance() }
+                QIITA_TAB -> { targetFragment = QiitaArticlesFragment.newInstance() }
             }
             fragmentTransaction.replace(R.id.TabContainer, targetFragment)
             fragmentTransaction.addToBackStack(null)
@@ -77,14 +77,6 @@ class TabContainerFragment : Fragment(),
         val fragmentTransaction = childFragmentManager.beginTransaction()
         val weatherInfoFragment = WeatherInfoFragment.newInstance(cityName!!, cityId!!)
         fragmentTransaction.replace(R.id.TabContainer, weatherInfoFragment)
-        fragmentTransaction.addToBackStack(null)
-        fragmentTransaction.commit()
-    }
-
-    override fun onFragmentInteraction(url: String?) {
-        val fragmentTransaction = childFragmentManager.beginTransaction()
-        val webViewFragment = WebViewFragment.newInstance(url!!)
-        fragmentTransaction.add(R.id.TabContainer, webViewFragment)
         fragmentTransaction.addToBackStack(null)
         fragmentTransaction.commit()
     }

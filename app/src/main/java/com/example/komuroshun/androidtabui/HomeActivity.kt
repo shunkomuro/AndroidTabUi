@@ -88,7 +88,7 @@ class HomeActivity : AppCompatActivity(), PageFragment.OnFragmentInteractionList
                 R.id.nav_others -> {
                     if (!othersIsAlreadyDisplayed) {
                         selectedTabFragment = TabContainerFragment()
-                        bundle.putString("tabName", "Qita")
+                        bundle.putString("tabName", "Qiita")
                         selectedTabFragment!!.setArguments(bundle)
                         selectedTabId = R.id.othersTabContainer
                         othersIsAlreadyDisplayed = true
