@@ -12,7 +12,6 @@ import com.example.komuroshun.androidtabui.card.CardListFragment
 import com.example.komuroshun.androidtabui.history.HistoryTabFragment
 import com.example.komuroshun.androidtabui.qiita.QiitaArticlesFragment
 import com.example.komuroshun.androidtabui.weather.CityListFragment
-import com.example.komuroshun.androidtabui.weather.WeatherInfoFragment
 
 private const val ARG_TAB_NAME = "tabName"
 
@@ -81,7 +80,12 @@ class TabContainerFragment : Fragment(),
             args.putString("arg_${queryParameterName}", uri.getQueryParameter(queryParameterName))
         }
         anonymousFragment.setArguments(args)
-        fragmentTransaction.replace(R.id.TabContainer, anonymousFragment)
+        // TODO replace だと画面に表示されない
+        if (Class.forName(uri.fragment).name == "com.example.komuroshun.androidtabui.WebViewFragment") {
+            fragmentTransaction.add(R.id.TabContainer, anonymousFragment)
+        } else {
+            fragmentTransaction.replace(R.id.TabContainer, anonymousFragment)
+        }
         fragmentTransaction.addToBackStack(null)
         fragmentTransaction.commit()
     }
