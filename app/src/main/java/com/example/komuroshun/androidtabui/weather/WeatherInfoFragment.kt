@@ -11,9 +11,8 @@ import com.example.komuroshun.androidtabui.BaseFragment
 import com.example.komuroshun.androidtabui.R
 import com.example.komuroshun.androidtabui.databinding.FragmentWeatherInfoBinding
 
-// TODO 変数名変える
-private const val ARG_CITY_NAME = "param1"
-private const val ARG_CITY_ID = "param2"
+private const val ARG_CITY_ID = "arg_city_id"
+private const val ARG_CITY_NAME = "arg_city_name"
 
 /**
  *  This is view that display weather information detail
@@ -28,8 +27,8 @@ class WeatherInfoFragment : BaseFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            cityName = it.getString(ARG_CITY_NAME)
             cityId = Integer.valueOf(it.getString(ARG_CITY_ID))
+            cityName = it.getString(ARG_CITY_NAME)
         }
     }
 
@@ -58,16 +57,16 @@ class WeatherInfoFragment : BaseFragment() {
 
     companion object {
         /**
-         * @param cityName city's name.
          * @param cityId city's primary id.
+         * @param cityName city's name.
          * @return A new instance of fragment WeatherInfoFragment.
          */
         @JvmStatic
         fun newInstance(cityName: String, cityId: String) =
                 WeatherInfoFragment().apply {
                     arguments = Bundle().apply {
-                        putString(ARG_CITY_NAME, cityName)
                         putString(ARG_CITY_ID, cityId)
+                        putString(ARG_CITY_NAME, cityName)
                     }
                 }
     }

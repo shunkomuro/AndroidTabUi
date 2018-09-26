@@ -12,7 +12,6 @@ import com.example.komuroshun.androidtabui.card.CardListFragment
 import com.example.komuroshun.androidtabui.history.HistoryTabFragment
 import com.example.komuroshun.androidtabui.qiita.QiitaArticlesFragment
 import com.example.komuroshun.androidtabui.weather.CityListFragment
-import com.example.komuroshun.androidtabui.weather.WeatherInfoFragment
 
 private const val ARG_TAB_NAME = "tabName"
 
@@ -26,7 +25,7 @@ class TabContainerFragment : Fragment(),
     internal val HOME_TAB = "ホーム"
     internal val WEATHER_TAB = "天気"
     internal val HISTORY_TAB = "履歴"
-    internal val QITA_TAB = "Qita"
+    internal val QIITA_TAB = "Qiita"
 
     private var mListener: OnFragmentInteractionListener? = null
 
@@ -40,7 +39,7 @@ class TabContainerFragment : Fragment(),
                 HOME_TAB -> { targetFragment = CardListFragment.newInstance() }
                 WEATHER_TAB -> { targetFragment = CityListFragment.newInstance() }
                 HISTORY_TAB -> { targetFragment = HistoryTabFragment.newInstance() }
-                QITA_TAB -> { targetFragment = QiitaArticlesFragment.newInstance() }
+                QIITA_TAB -> { targetFragment = QiitaArticlesFragment.newInstance() }
             }
             fragmentTransaction.replace(R.id.TabContainer, targetFragment)
             fragmentTransaction.addToBackStack(null)
@@ -72,31 +71,6 @@ class TabContainerFragment : Fragment(),
      * @param uri Uri
      * @author Shun Komuro
      */
-    override fun onFragmentInteraction(cityName: String?, cityId: String?) {
-        //TODO routing liburary を探す
-        val fragmentTransaction = childFragmentManager.beginTransaction()
-        val weatherInfoFragment = WeatherInfoFragment.newInstance(cityName!!, cityId!!)
-        fragmentTransaction.replace(R.id.TabContainer, weatherInfoFragment)
-        fragmentTransaction.addToBackStack(null)
-        fragmentTransaction.commit()
-    }
-
-    override fun onFragmentInteraction(url: String?) {
-        val fragmentTransaction = childFragmentManager.beginTransaction()
-        val webViewFragment = WebViewFragment.newInstance(url!!)
-        fragmentTransaction.add(R.id.TabContainer, webViewFragment)
-        fragmentTransaction.addToBackStack(null)
-        fragmentTransaction.commit()
-    }
-
-    override fun onFragmentBack() {
-        childFragmentManager.popBackStack()
-    }
-
-    /**
-     * @param uri Uri
-     * @author Shun Komuro
-     */
     override fun onFragmentInteraction(uri: Uri) {
         var anonymousFragment = Class.forName(uri.fragment).newInstance() as BaseFragment
         val fragmentTransaction = childFragmentManager.beginTransaction()
@@ -106,8 +80,17 @@ class TabContainerFragment : Fragment(),
             args.putString("arg_${queryParameterName}", uri.getQueryParameter(queryParameterName))
         }
         anonymousFragment.setArguments(args)
-        fragmentTransaction.add(R.id.TabContainer, anonymousFragment)
+        // TODO replace だと画面に表示されない
+        if (Class.forName(uri.fragment).name == "com.example.komuroshun.androidtabui.WebViewFragment") {
+            fragmentTransaction.add(R.id.TabContainer, anonymousFragment)
+        } else {
+            fragmentTransaction.replace(R.id.TabContainer, anonymousFragment)
+        }
         fragmentTransaction.addToBackStack(null)
         fragmentTransaction.commit()
+    }
+
+    override fun onFragmentBack() {
+        childFragmentManager.popBackStack()
     }
 }

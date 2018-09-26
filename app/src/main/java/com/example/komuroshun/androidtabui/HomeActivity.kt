@@ -15,6 +15,9 @@ import kotlinx.android.synthetic.main.widget_toolbar.*
  */
 class HomeActivity : AppCompatActivity(), PageFragment.OnFragmentInteractionListener,
         TabContainerFragment.OnFragmentInteractionListener {
+    // TODO Activity 破棄時の状態保持
+    // TODO 若干画面表示が重たいので読み込み数を減らしたい
+    // TODO RecyclerView に書き換えたい
     private var homeIsAlreadyDisplayed = false
     private var noticeIsAlreadyDisplayed = false
     private var pointIsAlreadyDisplayed = false
@@ -34,7 +37,6 @@ class HomeActivity : AppCompatActivity(), PageFragment.OnFragmentInteractionList
                 selectedTabId = R.id.homeTabContainer, selectedTab = homeTabContainer)
         homeIsAlreadyDisplayed = true
 
-        // Toolbar Settings
         //TODO:toolbar は 各 Fragment でもつようにする
         toolbar.inflateMenu(R.menu.menu_toolbar)
 
@@ -88,7 +90,7 @@ class HomeActivity : AppCompatActivity(), PageFragment.OnFragmentInteractionList
                 R.id.nav_others -> {
                     if (!othersIsAlreadyDisplayed) {
                         selectedTabFragment = TabContainerFragment()
-                        bundle.putString("tabName", "Qita")
+                        bundle.putString("tabName", "Qiita")
                         selectedTabFragment!!.setArguments(bundle)
                         selectedTabId = R.id.othersTabContainer
                         othersIsAlreadyDisplayed = true
