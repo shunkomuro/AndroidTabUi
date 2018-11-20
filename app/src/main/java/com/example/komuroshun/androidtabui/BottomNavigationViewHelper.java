@@ -27,8 +27,6 @@ public class BottomNavigationViewHelper {
                  * アイテムの幅調整
                  */
                 BottomNavigationItemView bottomNavigationItemView = (BottomNavigationItemView) menuView.getChildAt(i);
-                // noinspection RestrictedApi
-                bottomNavigationItemView.setShiftingMode(false);
                 // チェックされた値を設定すると、ビューが更新されるみたい
                 // noinspection RestrictedApi
                 bottomNavigationItemView.setChecked(false);

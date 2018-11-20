@@ -13,8 +13,6 @@ import com.example.komuroshun.androidtabui.history.HistoryTabFragment
 import com.example.komuroshun.androidtabui.qiita.QiitaArticlesFragment
 import com.example.komuroshun.androidtabui.weather.CityListFragment
 
-private const val ARG_TAB_NAME = "tabName"
-
 /**
  * BaseFragment.onFragmentInteractionListner を拡張した Fragment の切り替え操作をする
  */
@@ -22,49 +20,30 @@ class TabContainerFragment : Fragment(),
         BaseFragment.OnFragmentInteractionListener,
         CardListFragment.OnFragmentInteractionListener {
 
-    internal val HOME_TAB = "ホーム"
-    internal val WEATHER_TAB = "天気"
-    internal val HISTORY_TAB = "履歴"
-    internal val QIITA_TAB = "Qiita"
-
-    private var mListener: OnFragmentInteractionListener? = null
+    companion object {
+        const val ARG_TAB_ID = "tabId"
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         if (savedInstanceState == null) {
             val fragmentTransaction = childFragmentManager.beginTransaction()
-            val tabName = arguments!!.getString(ARG_TAB_NAME)
+            val tabId = arguments!!.getInt(ARG_TAB_ID)
             var targetFragment: Fragment? = null
-            when (tabName) {
-                HOME_TAB -> { targetFragment = CardListFragment.newInstance() }
-                WEATHER_TAB -> { targetFragment = CityListFragment.newInstance() }
-                HISTORY_TAB -> { targetFragment = HistoryTabFragment.newInstance() }
-                QIITA_TAB -> { targetFragment = QiitaArticlesFragment.newInstance() }
+            when (tabId) {
+                R.id.homeTabContainer -> { targetFragment = CardListFragment.newInstance() }
+                R.id.noticeTabContainer -> { targetFragment = CityListFragment.newInstance() }
+                R.id.historyTabContainer -> { targetFragment = HistoryTabFragment.newInstance() }
+                R.id.othersTabContainer -> { targetFragment = QiitaArticlesFragment.newInstance() }
             }
-            fragmentTransaction.replace(R.id.TabContainer, targetFragment)
-            fragmentTransaction.addToBackStack(null)
-            fragmentTransaction.commit()
+
+            if (targetFragment != null) {
+                fragmentTransaction.replace(R.id.TabContainer, targetFragment)
+                fragmentTransaction.addToBackStack(null)
+                fragmentTransaction.commit()
+            }
         }
         return inflater.inflate(R.layout.fragment_tab_container, container, false)
-    }
-
-    override fun onAttach(context: Context?) {
-        super.onAttach(context)
-        if (context is OnFragmentInteractionListener) {
-            mListener = context
-        } else {
-            throw RuntimeException(context!!.toString()
-                    + " must implement OnFragmentInteractionListener")
-        }
-    }
-
-    override fun onDetach() {
-        super.onDetach()
-        mListener = null
-    }
-
-    interface OnFragmentInteractionListener {
-        fun onFragmentInteraction(uri: Uri)
     }
 
     /**
