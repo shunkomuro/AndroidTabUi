@@ -2,9 +2,9 @@ package com.example.komuroshun.androidtabui
 
 import android.net.Uri
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import android.view.View
+import android.widget.FrameLayout
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.widget_toolbar.*
 
@@ -13,119 +13,102 @@ import kotlinx.android.synthetic.main.widget_toolbar.*
  * @author Shun Komuro
  * @version 1.0
  */
-class HomeActivity : AppCompatActivity(), PageFragment.OnFragmentInteractionListener,
-        TabContainerFragment.OnFragmentInteractionListener {
-    // TODO Activity 破棄時の状態保持
-    // TODO 若干画面表示が重たいので読み込み数を減らしたい
-    // TODO RecyclerView に書き換えたい
-    private var homeIsAlreadyDisplayed = false
-    private var noticeIsAlreadyDisplayed = false
-    private var pointIsAlreadyDisplayed = false
-    private var historyIsAlreadyDisplayed = false
-    private var othersIsAlreadyDisplayed = false
-    private var currentTabContainer: View? = null
+class HomeActivity : AppCompatActivity(), PageFragment.OnFragmentInteractionListener {
+
+    companion object {
+        const private val KEY_CURRENT_MENU_ID = "key_current_menu_id"
+    }
+
+    private var currentMenuId = 0
+    private var currentTabId = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
-        currentTabContainer = homeTabContainer
-        var firstViewFragment = TabContainerFragment()
-        var bundle = Bundle()
-        bundle.putString("tabName", "ホーム")
-        firstViewFragment!!.setArguments(bundle)
-        switchToSelectedTab(selectedTabFragment = firstViewFragment,
-                selectedTabId = R.id.homeTabContainer, selectedTab = homeTabContainer)
-        homeIsAlreadyDisplayed = true
-
-        //TODO:toolbar は 各 Fragment でもつようにする
         toolbar.inflateMenu(R.menu.menu_toolbar)
 
-        BottomNavigationViewHelper.disableShiftMode(bottomNavigation);
-        bottomNavigation.setOnNavigationItemSelectedListener { item ->
-            val bundle = Bundle()
-            var selectedTabFragment: Fragment? = null
-            var selectedTab: View? = null
-            var selectedTabId: Int = 0
-            when (item.itemId) {
-                R.id.nav_home -> {
-                    if (!homeIsAlreadyDisplayed) {
-                        selectedTabFragment = TabContainerFragment()
-                        bundle.putString("tabName", "ホーム")
-                        selectedTabFragment!!.setArguments(bundle)
-                        selectedTabId = R.id.homeTabContainer
-                        homeIsAlreadyDisplayed = true
-                    }
-                    selectedTab = homeTabContainer
-                }
-                R.id.nav_notice -> {
-                    if (!noticeIsAlreadyDisplayed) {
-                        selectedTabFragment = TabContainerFragment()
-                        bundle.putString("tabName", "天気")
-                        selectedTabFragment!!.setArguments(bundle)
-                        selectedTabId = R.id.noticeTabContainer
-                        noticeIsAlreadyDisplayed = true
-                    }
-                    selectedTab = noticeTabContainer
-                }
-                R.id.nav_point -> {
-                    if (!pointIsAlreadyDisplayed) {
-                        selectedTabFragment = PageFragment()
-                        bundle.putString("name", "ポイント")
-                        selectedTabFragment!!.setArguments(bundle)
-                        selectedTabId = R.id.pointTabContainer
-                        pointIsAlreadyDisplayed = true
-                    }
-                    selectedTab = pointTabContainer
-                }
-                R.id.nav_history -> {
-                    if (!historyIsAlreadyDisplayed) {
-                        selectedTabFragment = TabContainerFragment()
-                        bundle.putString("tabName", "履歴")
-                        selectedTabFragment!!.setArguments(bundle)
-                        selectedTabId = R.id.historyTabContainer
-                        historyIsAlreadyDisplayed = true
-                    }
-                    selectedTab = historyTabContainer
-                }
-                R.id.nav_others -> {
-                    if (!othersIsAlreadyDisplayed) {
-                        selectedTabFragment = TabContainerFragment()
-                        bundle.putString("tabName", "Qiita")
-                        selectedTabFragment!!.setArguments(bundle)
-                        selectedTabId = R.id.othersTabContainer
-                        othersIsAlreadyDisplayed = true
-                    }
-                    selectedTab = othersTabContainer
-                }
-            }
-            switchToSelectedTab(selectedTabFragment = selectedTabFragment,
-                    selectedTabId = selectedTabId, selectedTab = selectedTab)
+        if (savedInstanceState == null) {
+            currentMenuId = R.id.nav_home
+        } else {
+            currentMenuId = savedInstanceState.getInt(KEY_CURRENT_MENU_ID)
+        }
+        switchToSelectedTab(currentMenuId)
+
+        BottomNavigationViewHelper.disableShiftMode(navigationBottom);
+        navigationBottom.setOnNavigationItemSelectedListener { item ->
+            switchToSelectedTab(item.itemId)
             return@setOnNavigationItemSelectedListener true
         }
     }
 
-    private fun switchToSelectedTab(selectedTabFragment: Fragment? = null,
-                                    selectedTabId: Int, selectedTab: View? = null) {
-        if (selectedTabFragment != null) {
-            supportFragmentManager.beginTransaction()
-                    .replace(selectedTabId, selectedTabFragment)
-                    .commit()
+    override fun onSaveInstanceState(outState: Bundle?) {
+        super.onSaveInstanceState(outState)
+        outState!!.putInt(KEY_CURRENT_MENU_ID, currentMenuId)
+    }
+
+    private fun switchToSelectedTab(selectedMenuId: Int) {
+        var isCreated = false
+        var selectedTabId = 0
+        when (selectedMenuId) {
+            R.id.nav_home -> {
+                if (homeTabContainer.findViewById<FrameLayout>(R.id.TabContainer) != null) {
+                    isCreated = true
+                }
+                selectedTabId = R.id.homeTabContainer
+            }
+            R.id.nav_notice -> {
+                if (noticeTabContainer.findViewById<FrameLayout>(R.id.TabContainer) != null) {
+                    isCreated = true
+                }
+                selectedTabId = R.id.noticeTabContainer
+            }
+            R.id.nav_point -> {
+                if (pointTabContainer.findViewById<FrameLayout>(R.id.TabContainer) != null) {
+                    isCreated = true
+                }
+                selectedTabId = R.id.pointTabContainer
+            }
+            R.id.nav_history -> {
+                if (historyTabContainer.findViewById<FrameLayout>(R.id.TabContainer) != null) {
+                    isCreated = true
+                }
+                selectedTabId = R.id.historyTabContainer
+            }
+            R.id.nav_others -> {
+                if (othersTabContainer.findViewById<FrameLayout>(R.id.TabContainer) != null) {
+                    isCreated = true
+                }
+                selectedTabId = R.id.othersTabContainer
+            }
         }
 
-        if (currentTabContainer != selectedTab) {
-            selectedTab!!.setVisibility(View.VISIBLE)
-            currentTabContainer!!.setVisibility(View.GONE)
-            currentTabContainer = selectedTab
+        if (currentTabId == selectedTabId) {
+
+        } else {
+            if (isCreated == false) {
+                val selectedTabFragment = TabContainerFragment()
+                val bundle = Bundle()
+                bundle.putInt(TabContainerFragment.ARG_TAB_ID, selectedTabId)
+                selectedTabFragment.setArguments(bundle)
+
+                supportFragmentManager.beginTransaction()
+                        .replace(selectedTabId, selectedTabFragment)
+                        .commit()
+            }
+
+            findViewById<FrameLayout>(selectedTabId).setVisibility(View.VISIBLE)
+            var currentTab = findViewById<FrameLayout>(currentTabId)
+            if (currentTab != null) { currentTab.setVisibility(View.GONE) }
+
+            currentTabId = selectedTabId
+            currentMenuId = selectedMenuId
         }
     }
+
     /**
      * Switch Fragments only.
      * @param uri Uri
      * @author Shun Komuro
      */
     override fun onFragmentInteraction(uri: Uri) {}
-
-    companion object {
-        private val TAG = HomeActivity::class.java.name
-    }
 }
